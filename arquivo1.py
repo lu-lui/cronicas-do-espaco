@@ -12,23 +12,6 @@ allBodies = requests.get(allBodiesLink, headers=headers)
 
 allBodiesData = allBodies.json() #criando obj com as inf
 
-#Parsing - selecionando oq queremos guardar na hash
-selectedData = []
-
-for body in allBodiesData["bodies"]:
-    newBody = {
-        "id": body["id"],
-        "name": body["name"],
-        "englishName": body["englishName"],
-        "mass": body["mass"],
-        "gravity": body["gravity"],
-        "sideralOrbit": body["sideralOrbit"],
-        "discoveryDate": body["discoveryDate"],
-        "avgTemp": body["avgTemp"],
-        "bodyType": body["bodyType"]
-    }
-    selectedData.append(newBody)
-
 #-------------------------------FUNÇÕES-----------------------------------
 def funcao_hash(chave): #função pra mapear os id's (chave) pra hash
     soma = 0
@@ -51,7 +34,7 @@ def inserir_body(body):
         colisoes += 1
         i += 1
 
-    #dicionário só com os dados que a gnt quer de cada corpo
+    #dicionário só com os dados que a gnt quer de cada corpo - parsing
     novo_body = {
         "id": body["id"],
         "name": body["name"],
