@@ -51,8 +51,21 @@ def inserir_body(body):
         colisoes += 1
         i += 1
 
+    #dicionário só com os dados que a gnt quer de cada corpo
+    novo_body = {
+        "id": body["id"],
+        "name": body["name"],
+        "englishName": body["englishName"],
+        "mass": body["mass"],
+        "gravity": body["gravity"],
+        "sideralOrbit": body["sideralOrbit"],
+        "discoveryDate": body["discoveryDate"],
+        "avgTemp": body["avgTemp"],
+        "bodyType": body["bodyType"]
+    }
+
     nova_posicao = (posicao + i**2) % tamanho   #a nova posição é a que fez o loop parar
-    tabelaHash[nova_posicao] = body
+    tabelaHash[nova_posicao] = novo_body
 
     return colisoes
 
@@ -77,3 +90,5 @@ for posicao in tabelaHash:
 fatorCarga = qtdElementos / tamanho
 print("Fator de carga:", round(fatorCarga * 100, 2), "%") #arredondamos p 2 casas
 print("Número de colisões no carregamento:", numColisoes)
+
+print(tabelaHash[436])
