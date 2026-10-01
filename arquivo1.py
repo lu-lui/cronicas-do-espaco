@@ -52,6 +52,10 @@ def inserir_body(body):
 
     return colisoes
 
+#def menu_filtrar(tabelaHash):
+
+#def menu_filtrar(tabelaHash):
+
 #-------------------------------MAIN-----------------------------------
 #fator carga -> 554 corpos e no máximo 70% ocupação
 # -> 554/m = 0,7 -> m = 791,43 -> hash com 792 posições
@@ -71,7 +75,26 @@ for posicao in tabelaHash:
         qtdElementos += 1
 
 fatorCarga = qtdElementos / tamanho
+print("\n*.*.* CRÔNICAS DO ESPAÇO *.*.*")
 print("Fator de carga:", round(fatorCarga * 100, 2), "%") #arredondamos p 2 casas
 print("Número de colisões no carregamento:", numColisoes)
 
-print(tabelaHash[436])
+while True: #menu de navegação
+    print("\nBem vindo ao sistema! O que gostaria de fazer?")
+    print("1 - Pesquisar")
+    print("2 - Listar / Filtrar")
+    print("0 - Sair")
+    opcao = input("Escolha uma opção: ")
+
+    match opcao:
+        #case "1":
+            #menu_pesquisar(tabelaHash)
+        #case "2":
+            #menu_filtrar(tabelaHash)
+        case "0":
+            print("Programa encerrado com sucesso!")
+            break
+        case _:
+            print("Opção inválida, tente novamente.")
+
+#print(tabelaHash[436])
