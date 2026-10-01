@@ -3,7 +3,7 @@ import requests #se der erro colocar no terminal "pip install requests"
 #-------------------------------CHAMADA API-----------------------------------
 #Chamar a api para pegar all bodies info
 allBodiesLink = "https://api.le-systeme-solaire.net/rest/bodies/"
-key = "748f851d-98b9-4e79-be35-dc33a4fb852e"
+key = "5d4273f1-6511-44a5-be69-43811a4b3eee"
 
 headers = {
     "Authorization": f"Bearer {key}"
