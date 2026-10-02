@@ -140,22 +140,30 @@ print("Número de colisões no carregamento:", numColisoesPessoas)
 print(tabelaPessoas[67])
 
 #--------------------------Pesquisa e Listagem-----------------------------
+def pesquisarPessoa(nomePessoa):
+    for pessoa in tabelaPessoas:
+        if(pessoa["name"] == nomePessoa):
+            print(pessoa)
+            return
 
 
 #FUNÇÕES E MENU************************************************************
 while True: #menu de navegação
     print("\nBem vindo ao sistema! O que gostaria de fazer?")
-    print("1 - Pesquisar")
-    print("2 - Listar / Filtrar")
+    print("1 - Pesquisar pessoa")
+    print("2 - Pesquisar planeta")
+    print("3 - Filtrar pessoas")
+    print("4 - Filtrar planetas")
     print("0 - Sair")
     opcao = input("Escolha uma opção: ")
-
+    
     match opcao:
         case "1":
-            print("Digite o nome do planeta ou pessoa que está buscando:")
-
-        case "2":
+            nomePessoa = input("Digite o nome da pessoa que está buscando:")
+            pesquisarPessoa(nomePessoa)
+        case "3":
             print("Por qual característica deseja filtrar?")
+
         case "0":
             print("Programa encerrado com sucesso!")
             break
