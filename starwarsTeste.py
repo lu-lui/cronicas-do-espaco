@@ -139,6 +139,9 @@ print("Número de colisões no carregamento:", numColisoesPessoas)
 
 print(tabelaPessoas[67])
 
+#--------------------------Pesquisa e Listagem-----------------------------
+
+
 #FUNÇÕES E MENU************************************************************
 while True: #menu de navegação
     print("\nBem vindo ao sistema! O que gostaria de fazer?")
@@ -148,10 +151,11 @@ while True: #menu de navegação
     opcao = input("Escolha uma opção: ")
 
     match opcao:
-        #case "1":
-            #menu_pesquisar(tabelaHash)
-        #case "2":
-            #menu_filtrar(tabelaHash)
+        case "1":
+            print("Digite o nome do planeta ou pessoa que está buscando:")
+
+        case "2":
+            print("Por qual característica deseja filtrar?")
         case "0":
             print("Programa encerrado com sucesso!")
             break
