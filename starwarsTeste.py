@@ -141,7 +141,7 @@ def pesquisarPersonagem(nomePersonagem):
     for personagem in tabelaPersonagens:
         if personagem is not None:
             if(personagem["name"] == nomePersonagem):
-                print("Nome: ", personagem["name"])
+                print("Name: ", personagem["name"])
                 print("Mass: ", personagem["mass"])
                 print("Height: ", personagem["height"])
                 print("Gender: ", personagem["gender"])
@@ -155,7 +155,7 @@ def pesquisarPlaneta(nomePlaneta):
     for planeta in tabelaPlanetas:
         if planeta is not None:
             if(planeta["name"] == nomePlaneta):
-                print("Nome: ", planeta["name"])
+                print("Name: ", planeta["name"])
                 print("Climate: ", planeta["climate"])
                 print("Diameter: ", planeta["diameter"])
                 print("Gravity: ", planeta["gravity"])
@@ -173,7 +173,7 @@ def ler_intervalo():
             return minimo, maximo
         print("O mínimo não pode ser maior que o máximo.")
 
-def filtrar_planetas():
+def filtrarPlanetas():
     while True:
         print("\nSelecione uma opção: ")
         print("1 - Listar todos")
@@ -187,8 +187,8 @@ def filtrar_planetas():
         match opcao:
             case "0":
                 return
-            #case "1":
-                #print(tabelaPlanetas)
+            case "1":
+                print(tabelaPlanetas)
             case "2":
                 minimo, maximo = ler_intervalo()
                 print("(a implementar)")
@@ -204,7 +204,7 @@ def filtrar_planetas():
             case _: #default
                 print("Opção inválida, tente novamente.")
 
-def filtrar_personagens():
+def filtrarPersonagens():
     while True:
         print("\nSelecione uma opção: ")
         print("1 - Listar todos")
@@ -218,25 +218,95 @@ def filtrar_personagens():
         match opcao:
             case "0":
                 return
-            #case "1":
-                #print(tabelaPersonagens)
+            case "1":
+                print(tabelaPersonagens)
             case "2":
+                print("\n---Peso---")
+                print("Digite o intervalo de peso:")
                 minimo, maximo = ler_intervalo()
-                print("(a implementar)")
-            case "3":
-                minimo, maximo = ler_intervalo()
-                print("(a implementar)")
-            case "4":
-                minimo, maximo = ler_intervalo()
-                print("(a implementar)")
-            case "5":
-                print("Cor do olho:")
-                print("1. Preto \n2.Castanho Escuro \n3.Blue \n4.Red \n5.Amarelo")
-                print("6. Castanho Claro \n7.Rosa \n8.Laranja \n9.Dourado \n10.Branco")
 
-        
-            case _: #default
-                print("Opção inválida, tente novamente.")
+                for personagem in tabelaPersonagens:
+                    if personagem is not None:
+                        if(personagem["mass"] >= minimo and personagem["mass"] <= maximo):
+                            print("\nName: ", personagem["name"])
+                            print("Mass: ", personagem["mass"])
+                                
+            case "3":
+                print("\n---Altura---")
+                print("Digite o intervalo de altura:")
+                minimo, maximo = ler_intervalo()
+
+                for personagem in tabelaPersonagens:
+                    if personagem is not None:
+                        if(personagem["heiht"] >= minimo and personagem["height"] <= maximo):
+                            print("\nName: ", personagem["name"])
+                            print("Height: ", personagem["height"])
+                
+            case "4":
+                print("\n---Gênero---")
+                print("Selecione o gênero:")
+                opcao = input("1. Feminino \n2.Masculino\n")
+
+                while opcao != "1" and opcao != "2":
+                    print("Opção inválida! \nSelecione um gênero:")
+                    opcao = input("1. Feminino \n2.Masculino\n")   
+                
+                if opcao == "1":
+                    for personagem in tabelaPersonagens:
+                        if personagem is not None:
+                            if(personagem["gender"] == "female"):
+                                print("\nName: ", personagem["name"])
+                                print("Gender: ", personagem["gender"])
+
+                elif opcao == "2":
+                    for personagem in tabelaPersonagens:
+                        if personagem is not None:
+                            if(personagem["gender"] == "male"):
+                                print("\nName: ", personagem["name"])
+                                print("Gender: ", personagem["gender"])
+            case "5":
+                print("\n---Cor dos olhos---")
+                print("Selecione a cor desejada:")
+                opcao = input("1. Preto \n2.Castanho \n3.Azul \n4.Amarelo \n5.Colorido\n") #outro?
+
+                while opcao != "1" and opcao != "2" and opcao != "3" and opcao != "4" and opcao != "5":
+                    print("Opção inválida! \nSelecione uma cor de olhos:")
+                    opcao = input("1. Preto \n2.Castanho \n3.Azul \n4.Amarelo \n5.Colorido\n")
+                    
+                match opcao:
+                    case "1":
+                        for personagem in tabelaPersonagens:
+                            if personagem is not None:
+                                if(personagem["eye_color"] == "black"):
+                                    print("\nName: ", personagem["name"])
+                                    print("Eye Color: ", personagem["eye_color"])
+                    case "2":
+                        for personagem in tabelaPersonagens:
+                            if personagem is not None:
+                                if(personagem["eye_color"] == "brown" or personagem["eye_color"] == "hazel"):
+                                    print("\nName: ", personagem["name"])
+                                    print("Eye Color: ", personagem["eye_color"])
+                    case "3":
+                        for personagem in tabelaPersonagens:
+                            if personagem is not None:
+                                if(personagem["eye_color"] == "blue"):
+                                    print("\nName: ", personagem["name"])
+                                    print("Eye Color: ", personagem["eye_color"])
+                    case "4":
+                        for personagem in tabelaPersonagens:
+                            if personagem is not None:
+                                if(personagem["eye_color"] == "yellow"):
+                                    print("\nName: ", personagem["name"])
+                                    print("Eye Color: ", personagem["eye_color"])
+                    case "5":
+                        for personagem in tabelaPersonagens:
+                            if personagem is not None:
+                                #(ver sintaxe que deixa menor)
+                                if(personagem["eye_color"] != "black" and personagem["eye_color"] != "brown" and personagem["eye_color"] != "hazel" and personagem["eye_color"] != "blue" and personagem["eye_color"] != "yellow"):
+                                    print("\nName: ", personagem["name"])
+                                    print("Eye Color: ", personagem["eye_color"])
+                    case _: #default
+                        print("Opção inválida, tente novamente.")
 
 #FUNÇÕES E MENU************************************************************
 while True: #menu de navegação
@@ -257,9 +327,9 @@ while True: #menu de navegação
             nomePlaneta = input("Digite o nome do Planeta que está buscando:")
             pesquisarPlaneta(nomePlaneta)
         case "3":
-            filtrar_personagens()
+            filtrarPersonagens()
         case "4":
-            filtrar_planetas()
+            filtrarPlanetas()
         case "0":
             print("Programa encerrado com sucesso!")
             break
