@@ -70,7 +70,7 @@ print("Número de colisões no carregamento:", numColisoesPlanetas)
 
 #Personagem ****************************************************************
 #-------------------------------FUNÇÕES-----------------------------------
-def funcao_hash_planetas(chave): #função pra mapear os id's (chave) pra hash
+def funcao_hash_personagens(chave): #função pra mapear os id's (chave) pra hash
     soma = 0
 
     for caractere in chave:
@@ -79,7 +79,7 @@ def funcao_hash_planetas(chave): #função pra mapear os id's (chave) pra hash
 
 def inserir_personagem(personagem):
     chave = personagem["name"]
-    posicao = funcao_hash_planetas(chave)
+    posicao = funcao_hash_personagens(chave)
 
     #depois de achar a posição se houver colisão vamos fazer a sondagem quadrática
     i = 0
@@ -167,8 +167,13 @@ def pesquisarPlaneta(nomePlaneta):
 
 def ler_intervalo():
     while True:
-        minimo = input("Valor mínimo: ")
-        maximo = input("Valor máximo: ")
+        try:
+            minimo = int(input("Valor mínimo: "))
+            maximo = int(input("Valor máximo: "))
+        except ValueError:
+            print("Digite apenas numeros inteiros")
+            continue
+        
         if minimo <= maximo:
             return minimo, maximo
         print("O mínimo não pode ser maior que o máximo.")
@@ -182,7 +187,12 @@ def filtrarPlanetas():
         print("4 - Filtrar por gravidade")
         print("5 - Filtrar por população")
         print("0 - Voltar")
-        opcao = input("Escolha: ")
+
+        while True:
+            opcao = input("Escolha: ")
+            if opcao in ["0", "1", "2", "3", "4", "5"]:
+                break
+            print("Opção inválida, tente novamente.")
 
         match opcao:
             case "0":
@@ -190,19 +200,37 @@ def filtrarPlanetas():
             case "1":
                 print(tabelaPlanetas)
             case "2":
-                minimo, maximo = ler_intervalo()
-                print("(a implementar)")
+                print("\n---Clima---")
+                
+
+               ###é em texto
             case "3":
+                print("\n---Diâmetro---")
                 minimo, maximo = ler_intervalo()
-                print("(a implementar)")
+
+                for planeta in tabelaPlanetas:
+                    if planeta is not None:
+                        if(planeta["diameter"] >= minimo and planeta["diameter"] <= maximo):
+                            print("\nName: ", planeta["name"])
+                            print("Diameter: ", planeta["diameter"])
             case "4":
+                print("\n---Gravidade---")
                 minimo, maximo = ler_intervalo()
-                print("(a implementar)")
+
+                for planeta in tabelaPlanetas:
+                    if planeta is not None:
+                        if(planeta["gravity"] >= minimo and planeta["gravity"] <= maximo):
+                            print("\nName: ", planeta["name"])
+                            print("Gravity: ", planeta["gravity"])
             case "5":
+                print("\n---População---")
                 minimo, maximo = ler_intervalo()
-                print("(a implementar)")
-            case _: #default
-                print("Opção inválida, tente novamente.")
+
+                for planeta in tabelaPlanetas:
+                    if planeta is not None:
+                        if(planeta["population"] >= minimo and planeta["population"] <= maximo):
+                            print("\nName: ", planeta["name"])
+                            print("Population: ", planeta["population"])          
 
 def filtrarPersonagens():
     while True:
@@ -211,9 +239,14 @@ def filtrarPersonagens():
         print("2 - Filtrar por peso")
         print("3 - Filtrar por altura")
         print("4 - Filtrar por gênero")
-        print("5 - Filtrar por cor do olho")
+        print("5 - Filtrar por cor dos olhos")
         print("0 - Voltar")
-        opcao = input("Escolha: ")
+
+        while True:
+            opcao = input("Escolha: ")
+            if opcao in ["0", "1", "2", "3", "4", "5"]:
+                break
+            print("Opção inválida, tente novamente.")
 
         match opcao:
             case "0":
@@ -229,8 +262,7 @@ def filtrarPersonagens():
                     if personagem is not None:
                         if(personagem["mass"] >= minimo and personagem["mass"] <= maximo):
                             print("\nName: ", personagem["name"])
-                            print("Mass: ", personagem["mass"])
-                                
+                            print("Mass: ", personagem["mass"])                   
             case "3":
                 print("\n---Altura---")
                 print("Digite o intervalo de altura:")
@@ -238,10 +270,9 @@ def filtrarPersonagens():
 
                 for personagem in tabelaPersonagens:
                     if personagem is not None:
-                        if(personagem["heiht"] >= minimo and personagem["height"] <= maximo):
+                        if(personagem["height"] >= minimo and personagem["height"] <= maximo):
                             print("\nName: ", personagem["name"])
-                            print("Height: ", personagem["height"])
-                
+                            print("Height: ", personagem["height"])               
             case "4":
                 print("\n---Gênero---")
                 print("Selecione o gênero:")
@@ -301,8 +332,7 @@ def filtrarPersonagens():
                     case "5":
                         for personagem in tabelaPersonagens:
                             if personagem is not None:
-                                #(ver sintaxe que deixa menor)
-                                if(personagem["eye_color"] != "black" and personagem["eye_color"] != "brown" and personagem["eye_color"] != "hazel" and personagem["eye_color"] != "blue" and personagem["eye_color"] != "yellow"):
+                                if personagem["eye_color"] not in ["black", "brown", "hazel", "blue", "yellow"]:
                                     print("\nName: ", personagem["name"])
                                     print("Eye Color: ", personagem["eye_color"])
                     case _: #default
