@@ -55,7 +55,7 @@ while planetasLink is not None:
         numColisoesPlanetas += inserir_planeta(planeta)
 
     planetasLink = planetasDados["next"]
-#-------------------------------MAIN-----------------------------------
+#-------------------------------MAIN PLANETAS-----------------------------------
 qtdElementosPlanetas = 0
 
 #contando elementos inseridos pra calcular o fator de carga
@@ -91,13 +91,19 @@ def inserir_personagem(personagem):
         colisoes += 1
         i += 1
 
+    linkHomeworld = personagem["homeworld"]
+    respostaHomeWorld = requests.get(linkHomeworld)
+    dadosHomeworld = respostaHomeWorld.json()
+    nomeHomeWorld = dadosHomeworld["name"]
+
     #dicionário só com os dados que a gnt quer de cada corpo - parsing
     nova_personagem = {
         "name": personagem["name"],
         "mass": personagem["mass"],
         "height": personagem["height"],
         "gender": personagem["gender"],
-        "eye_color": personagem["eye_color"]
+        "eye_color": personagem["eye_color"],
+        "homeworld": nomeHomeWorld
     }
 
     nova_posicao = (posicao + i**2) % tamanhoPersonagens   #a nova posição é a que fez o loop parar
@@ -123,7 +129,7 @@ while PersonagemLink is not None:
         numColisoesPersonagem += inserir_personagem(personagem)
 
     PersonagemLink = PersonagemDados["next"]
-#-------------------------------MAIN-----------------------------------
+#-------------------------------MAIN PERSONAGENS-----------------------------------
 qtdElementosPersonagem = 0
 
 #contando elementos inseridos pra calcular o fator de carga
@@ -137,33 +143,56 @@ print("Fator de carga:", round(fatorCargaPersonagem * 100, 2), "%") #arredondamo
 print("Número de colisões no carregamento:", numColisoesPersonagem)
 
 #--------------------------Pesquisa e Listagem-----------------------------
-def pesquisarPersonagem(nomePersonagem):
-    for personagem in tabelaPersonagens:
-        if personagem is not None:
-            if(personagem["name"] == nomePersonagem):
-                print("Name: ", personagem["name"])
-                print("Mass: ", personagem["mass"])
-                print("Height: ", personagem["height"])
-                print("Gender: ", personagem["gender"])
-                print("Eye color: ", personagem["eye_color"])
-                return
+def buscaPlanetas(chave): 
+    soma = 0
+    i = 0
 
-    print("Personagem não encontrada(o)")
-    return
+    for caractere in chave:
+        soma += ord(caractere)  
+    posicaoInicial = soma % tamanhoPlanetas
+    posicao = posicaoInicial
 
-def pesquisarPlaneta(nomePlaneta):
-    for planeta in tabelaPlanetas:
-        if planeta is not None:
-            if(planeta["name"] == nomePlaneta):
-                print("Name: ", planeta["name"])
-                print("Climate: ", planeta["climate"])
-                print("Diameter: ", planeta["diameter"])
-                print("Gravity: ", planeta["gravity"])
-                print("Population: ", planeta["population"])
-                return
+    while tabelaPlanetas[posicao] != None and tabelaPlanetas[posicao]["name"] != chave and i <= tamanhoPlanetas:
+        i += 1
+        posicao = (posicaoInicial + i**2) % tamanhoPlanetas 
 
-    print("Planeta não encontrado")
-    return
+    if i == tamanhoPlanetas or tabelaPlanetas[posicao] == None:
+        print("Planeta não encontrado.")
+        return
+    else:
+        planeta = tabelaPlanetas[posicao]
+        print("Name: ", planeta["name"])
+        print("Climate: ", planeta["climate"])
+        print("Diameter: ", planeta["diameter"])
+        print("Gravity: ", planeta["gravity"])
+        print("Population: ", planeta["population"])
+        return
+
+def buscaPersonagens(chave): 
+    soma = 0
+    i = 0
+
+    for caractere in chave:
+        soma += ord(caractere)  
+    posicaoInicial = soma % tamanhoPersonagens
+    posicao = posicaoInicial
+
+    while tabelaPersonagens[posicao] != None and tabelaPersonagens[posicao]["name"] != chave and i <= tamanhoPersonagens:
+        i += 1
+        posicao = (posicaoInicial + i**2) % tamanhoPersonagens 
+
+    if i == tamanhoPersonagens or tabelaPersonagens[posicao] == None:
+        print("Personagem não encontrado.")
+        return
+    else:
+        personagem = tabelaPersonagens[posicao]
+        print("Name: ", personagem["name"])
+        print("Mass: ", personagem["mass"])
+        print("Height: ", personagem["height"])
+        print("Gender: ", personagem["gender"])
+        print("Eye color: ", personagem["eye_color"])
+        print("Home world: ", personagem["homeworld"])
+        return
 
 def ler_intervalo():
     while True:
@@ -308,10 +337,11 @@ def filtrarPersonagens():
         print("3 - Filtrar por altura")
         print("4 - Filtrar por gênero")
         print("5 - Filtrar por cor dos olhos")
+        print("6 - Filtrar por planeta")
         print("0 - Voltar")
         opcao = input("Escolha: ")
         
-        while opcao != "0" and opcao != "1" and opcao != "2" and opcao != "3" and opcao != "4" and opcao != "5":
+        while opcao != "0" and opcao != "1" and opcao != "2" and opcao != "3" and opcao != "4" and opcao != "5" and opcao != "6":
             opcao = input("Opção inválida! Tente novamente:")
 
         match opcao:
@@ -436,6 +466,56 @@ def filtrarPersonagens():
                                     flag = True
                 if not flag:                      
                     print("Nenhum resultado encontrado.")
+            case "6":
+                flag = False
+                p = input("Digite o planeta: \n")
+                for personagem in tabelaPersonagens:
+                    if personagem is not None:
+                        if(personagem["homeworld"] == p):
+                            print("\nName: ", personagem["name"])
+                            print("Massa: ", personagem["mass"])
+                            flag = True
+                if not flag:                      
+                    print("Nenhum resultado encontrado.") 
+
+
+#ALGORITMO GULOSO**********************************************************
+#QUAL O MÁXIMO DE PESSOAS QUE CONSEGUIMOS LEVAR DO PLANETA X AO Y EM UMA NAVE 
+#COM DETERMINADA CAPACIDADE
+def viagemEspacial(planetaSaida, planetaDestino, capacidade):
+    pessoasPossiveis = []
+
+    for personagem in tabelaPersonagens:
+        if personagem is not None and personagem["mass"] != "unknown":
+            if personagem["homeworld"] == planetaSaida:
+                pessoasPossiveis.append(personagem)
+
+    pessoasPossiveisOrdenadas = sorted(pessoasPossiveis, key=lambda p: float(p["mass"]))
+
+    cargaNave = 0
+    tamVetor = len(pessoasPossiveisOrdenadas)
+    pessoasQueVao = []
+    i = 0
+    contPessoas = 0
+
+    while i < tamVetor:
+        peso = float(pessoasPossiveisOrdenadas[i]["mass"])
+        if cargaNave + peso <= capacidade:
+            pessoasQueVao.append(pessoasPossiveisOrdenadas[i])
+            cargaNave += peso
+            contPessoas += 1
+            i += 1
+        else:
+            break
+
+    print(f"Vamos levar {contPessoas} pessoas de {planetaSaida} para {planetaDestino}!")
+    print("Lista de passageiros:")
+    i = 0
+    for personagem in pessoasQueVao:
+        i += 1
+        print(i, ":", personagem["name"])
+
+    return
 
 #FUNÇÕES E MENU************************************************************
 while True: #menu de navegação
@@ -445,23 +525,30 @@ while True: #menu de navegação
     print("2 - Pesquisar planeta")
     print("3 - Filtrar personagens")
     print("4 - Filtrar planetas")
+    print("5 - Planejar viagem espacial")
     print("0 - Sair")
     opcao = input("Escolha uma opção: ")
 
-    while opcao != "0" and opcao != "1" and opcao != "2" and opcao != "3" and opcao != "4":
+    while opcao != "0" and opcao != "1" and opcao != "2" and opcao != "3" and opcao != "4" and opcao != "5":
         opcao = input("Opção inválida! Tente novamente:")
 
     match opcao:
         case "1":
             nomePersonagem = input("Digite o nome da(o) personagem que está buscando:\n")
-            pesquisarPersonagem(nomePersonagem)
+            buscaPersonagens(nomePersonagem)
         case "2":
-            nomePlaneta = input("Digite o nome do Planeta que está buscando:")
-            pesquisarPlaneta(nomePlaneta)
+            nomePlaneta = input("Digite o nome do Planeta que está buscando:\n")
+            buscaPlanetas(nomePlaneta)
         case "3":
             filtrarPersonagens()
         case "4":
             filtrarPlanetas()
+        case "5":
+            print("Vamos ver quantas pessoas vamos poder levar nessa viagem!")
+            planetaSaida = input("Digite de qual planeta a viagem vai partir:\n")
+            planetaDestino = input("Qual planeta é o destino desta viagem?\n")
+            capacidadeNave = int(input("Qual a capacidade da sua nave?(kg)\n"))
+            viagemEspacial(planetaSaida, planetaDestino, capacidadeNave)
         case "0":
             print("Programa encerrado com sucesso!")
             break
