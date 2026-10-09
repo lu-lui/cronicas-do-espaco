@@ -490,7 +490,7 @@ def viagemEspacial( planetaSaida, planetaDestino, capacidade ):
             if personagem[ "homeworld" ] == planetaSaida:
                 pessoasPossiveis.append( personagem )
 
-    pessoasPossiveisOrdenadas = sorted( pessoasPossiveis, key=lambda p: float( p[ "mass" ] ) )
+    pessoasPossiveisOrdenadas = sorted( pessoasPossiveis, key=lambda p: float( p[ "mass" ].replace( ",", "" ) ) )
 
     cargaNave = 0
     tamVetor = len( pessoasPossiveisOrdenadas )
@@ -499,7 +499,7 @@ def viagemEspacial( planetaSaida, planetaDestino, capacidade ):
     contPessoas = 0
 
     while i < tamVetor:
-        peso = float( pessoasPossiveisOrdenadas[ i ][ "mass" ] )
+        peso = float( pessoasPossiveisOrdenadas[ i ][ "mass" ].replace( ",", "" ) )
         if cargaNave + peso <= capacidade:
             pessoasQueVao.append( pessoasPossiveisOrdenadas[ i ] )
             cargaNave += peso
