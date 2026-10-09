@@ -141,5 +141,3 @@ fatorCargaPersonagem = qtdElementosPersonagem / tamanhoPersonagens
 print("Personagens_____________________________")
 print("Fator de carga:", round(fatorCargaPersonagem * 100, 2), "%") #arredondamos p 2 casas
 print("Número de colisões no carregamento:", numColisoesPersonagem)
-
-print(tabelaPlanetas)

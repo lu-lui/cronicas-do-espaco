@@ -38,7 +38,7 @@ def inserir_planeta(planeta):
     return colisoes
 
 #-------------------------------CHAMADA API-----------------------------------
-#fator carga -> 60 corpos e no máximo 70% ocupação
+#fator carga -> 60 planetas e no máximo 70% ocupação
 # -> 60/m = 0,7 -> m = 85 -> hash com 89 posições
 
 tamanhoPlanetas = 89
@@ -112,7 +112,7 @@ def inserir_personagem(personagem):
     return colisoes
 
 #-------------------------------CHAMADA API-----------------------------------
-#fator carga -> 82 corpos e no máximo 70% ocupação
+#fator carga -> 82 personagens e no máximo 70% ocupação
 # -> 82/m = 0,7 -> m = 117 -> hash com 127 posições
 
 tamanhoPersonagens = 127
@@ -191,7 +191,7 @@ def buscaPersonagens(chave):
         print("Height: ", personagem["height"])
         print("Gender: ", personagem["gender"])
         print("Eye color: ", personagem["eye_color"])
-        print("Home world: ", personagem["homeworld"])
+        print("Homeworld: ", personagem["homeworld"])
         return
 
 def ler_intervalo():
@@ -473,6 +473,7 @@ def filtrarPersonagens():
                     if personagem is not None:
                         if(personagem["homeworld"] == p):
                             print("\nName: ", personagem["name"])
+                            print("Homeworld: ", personagem["homeworld"])
                             print("Massa: ", personagem["mass"])
                             flag = True
                 if not flag:                      
