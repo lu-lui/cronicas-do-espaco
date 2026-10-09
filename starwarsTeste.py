@@ -152,7 +152,7 @@ def buscaPlanetas(chave):
     posicaoInicial = soma % tamanhoPlanetas
     posicao = posicaoInicial
 
-    while tabelaPlanetas[posicao] != None and tabelaPlanetas[posicao]["name"] != chave and i <= tamanhoPlanetas:
+    while tabelaPlanetas[posicao] != None and tabelaPlanetas[posicao]["name"] != chave and i < tamanhoPlanetas:
         i += 1
         posicao = (posicaoInicial + i**2) % tamanhoPlanetas 
 
@@ -177,7 +177,7 @@ def buscaPersonagens(chave):
     posicaoInicial = soma % tamanhoPersonagens
     posicao = posicaoInicial
 
-    while tabelaPersonagens[posicao] != None and tabelaPersonagens[posicao]["name"] != chave and i <= tamanhoPersonagens:
+    while tabelaPersonagens[posicao] != None and tabelaPersonagens[posicao]["name"] != chave and i < tamanhoPersonagens:
         i += 1
         posicao = (posicaoInicial + i**2) % tamanhoPersonagens 
 
