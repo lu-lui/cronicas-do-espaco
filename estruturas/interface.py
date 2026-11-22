@@ -1,7 +1,7 @@
 #import do método abstrato
 from abc import ABC, abstractmethod
 
-class Interface(ABC): #contrato com as estruturas de dados
+class Estruturas(ABC): #contrato com as estruturas de dados
     @abstractmethod
     def inserir(self, chave, registro):
         pass
