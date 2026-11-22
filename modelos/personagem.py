@@ -1,4 +1,3 @@
-#modelos/personagem.py
 class Personagem:
     #constrututor
     def __init__(self, name, mass, height, gender, eye_color, homeworld):

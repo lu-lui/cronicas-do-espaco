@@ -1,4 +1,3 @@
-#modelos/planeta.py
 class Planeta:
     #constrututor
     def __init__(self, name, climate, diameter, gravity, population):
