@@ -1,5 +1,5 @@
-# Código entregue na parte 1 do trabalho de AED II, não será modificado para a parte 2
-# pois o mesmo foi dividido em módulos e classes para melhor organização do código.
+# Código entregue na parte 1 do trabalho de AED II
+# foi dividido em módulos e classes para melhor organização do código.
 
 import requests #se der erro colocar no terminal "pip install requests"
 

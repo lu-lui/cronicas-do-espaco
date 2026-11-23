@@ -1,17 +1,22 @@
 def ler_intervalo():
     while True:
-        try:
-            minimo = int( input( "Valor mínimo: " ) )
-            maximo = int( input( "Valor máximo: " ) )
-        except ValueError:
-            print( "Digite apenas numeros inteiros" )
-            continue
+        minimo = ler_valor("Valor mínimo: " )
+        maximo = ler_valor("Valor máximo: " )
         
         if minimo <= maximo:
             return minimo, maximo
         print( "O mínimo não pode ser maior que o máximo." )
 
-def filtrarPlanetas(tabelaPlanetas):
+def ler_valor(mensagem):
+    while True:
+        try:
+            valor = float(input(mensagem))
+        except ValueError:
+            print( "Digite apenas números" )
+            continue
+        return valor
+
+def filtrarPlanetas(gerenciadorPlanetas):
     while True:
         print( "\nSelecione uma opção: " )
         print( "1 - Listar todos" )
@@ -30,7 +35,7 @@ def filtrarPlanetas(tabelaPlanetas):
                 return
             case "1":
                 flag = False
-                for planeta in tabelaPlanetas.percorrer():
+                for planeta in gerenciadorPlanetas:
                     if planeta is not None:
                         print( "\nName: ", planeta.name )
                         print( "Climate: ", planeta.climate )
@@ -52,35 +57,35 @@ def filtrarPlanetas(tabelaPlanetas):
                 flag = False #flag que liga quando acha a informação  
                 match opcao:
                     case "1":
-                        for planeta in tabelaPlanetas.percorrer(): #os planetas tem mais de uma caracteristica climática
+                        for planeta in gerenciadorPlanetas: #os planetas tem mais de uma caracteristica climática
                             if planeta is not None:    #verifica se a temperatura selecionada está etre elas
                                 if "temperate" in planeta.climate: 
                                     print( "\nName: ", planeta.name )
                                     print( "Climate: ", planeta.climate )
                                     flag = True
                     case "2":
-                        for planeta in tabelaPlanetas.percorrer():
+                        for planeta in gerenciadorPlanetas:
                             if planeta is not None:
                                 if "arid" in planeta.climate:
                                     print( "\nName: ", planeta.name )
                                     print( "Climate: ", planeta.climate )
                                     flag = True            
                     case "3":
-                        for planeta in tabelaPlanetas.percorrer():
+                        for planeta in gerenciadorPlanetas:
                             if planeta is not None:
                                 if "tropical" in planeta.climate:
                                     print( "\nName: ", planeta.name )
                                     print( "Climate: ", planeta.climate )
                                     flag = True
                     case "4":
-                        for planeta in tabelaPlanetas.percorrer():
+                        for planeta in gerenciadorPlanetas:
                             if planeta is not None:
                                 if "hot" in planeta.climate:
                                     print( "\nName: ", planeta.name )
                                     print( "Climate: ", planeta.climate )
                                     flag = True
                     case "5":
-                        for planeta in tabelaPlanetas.percorrer():
+                        for planeta in gerenciadorPlanetas:
                             if planeta is not None:
                                 if "temperate" not in planeta.climate and "arid" not in planeta.climate and "tropical" not in planeta.climate and "hot" not in planeta.climate:
                                     print( "\nName: ", planeta.name )
@@ -90,26 +95,31 @@ def filtrarPlanetas(tabelaPlanetas):
                     print( "Nenhum resultado encontrado." )
             case "3":
                 print( "\n---Diâmetro---" )
-                print( "Digite o intervalo de diâmetro:" )
-                minimo, maximo = ler_intervalo()
 
-                flag = False
-                for planeta in tabelaPlanetas.percorrer():
-                    if planeta is not None:
-                        if planeta.diameter != "unknown":
-                            if minimo <= int( planeta.diameter ) <= maximo:
-                                print( "\nName: ", planeta.name )
-                                print( "Diameter: ", planeta.diameter )
-                                flag = True
-                if not flag:                      
-                    print( "Nenhum resultado encontrado." )
+                op = input("\nDeseja filtrar por intervalo (1) ou um valor exato (2)? ")
+                while op != '1' and op != '2':
+                    op = input("\nOpção Inválida. Digite novamente: ")
+
+                if op == '1':
+                    print( "Digite o intervalo de diâmetro:" )
+                    minimo, maximo = ler_intervalo()
+                    resultados = gerenciadorPlanetas.buscar_intervalo_diametro(minimo, maximo)
+                elif op == '2':
+                    diametro = ler_valor("\nDigite o diâmetro: ")
+                    resultados = gerenciadorPlanetas.buscar_diametro(diametro)
+
+                if resultados:
+                    for planeta in resultados:
+                        print(planeta)
+                else:
+                    print("Nenhum resultado encontrado.")
                         
             case "4":
                 print( "\n---Gravidade---" )
                 gravidade = input( "Digite a gravidade exata (ex: 1 standard): " )
 
                 flag = False
-                for planeta in tabelaPlanetas.percorrer():
+                for planeta in gerenciadorPlanetas:
                     if planeta is not None:
                         if planeta.gravity == gravidade:
                             print( "\nName: ", planeta.name )
@@ -119,21 +129,26 @@ def filtrarPlanetas(tabelaPlanetas):
                     print( "Nenhum resultado encontrado." )
             case "5":
                 print( "\n---População---" )
-                print( "Digite o intervalo de população:" )
-                minimo, maximo = ler_intervalo()
 
-                flag = False
-                for planeta in tabelaPlanetas.percorrer():
-                    if planeta is not None:
-                        if planeta.population != "unknown":
-                            if minimo <= int( planeta.population ) <= maximo:
-                                print( "\nName: ", planeta.name )
-                                print( "Population: ", planeta.population )
-                                flag = True
-                if not flag:                      
-                    print( "Nenhum resultado encontrado." )          
+                op = input("\nDeseja filtrar por intervalo (1) ou um valor exato (2)? ")
+                while op != '1' and op != '2':
+                    op = input("\nOpção Inválida. Digite novamente: ")
 
-def filtrarPersonagens(tabelaPersonagens):
+                if op == '1':
+                    print( "Digite o intervalo da população:" )
+                    minimo, maximo = ler_intervalo()
+                    resultados = gerenciadorPlanetas.buscar_intervalo_populacao(minimo, maximo)
+                elif op == '2':
+                    populacao = ler_valor("\nDigite a população: ")
+                    resultados = gerenciadorPlanetas.buscar_populacao(populacao)
+
+                if resultados:
+                    for planeta in resultados:
+                        print(planeta)
+                else:
+                    print("Nenhum resultado encontrado.")        
+
+def filtrarPersonagens(gerenciadorPersonagens):
     while True:
         print( "\nSelecione uma opção: " )
         print( "1 - Listar todos" )
@@ -153,7 +168,7 @@ def filtrarPersonagens(tabelaPersonagens):
                 return
             case "1":
                 flag = False
-                for personagem in tabelaPersonagens.percorrer():
+                for personagem in gerenciadorPersonagens:
                     if personagem is not None:
                         print( "\nName: ", personagem.name )
                         print( "Mass: ", personagem.mass )
@@ -165,34 +180,44 @@ def filtrarPersonagens(tabelaPersonagens):
                     print( "Nenhum resultado encontrado." )
             case "2":
                 print( "\n---Peso---" )
-                print( "Digite o intervalo de peso:" )
-                minimo, maximo = ler_intervalo()
 
-                flag = False
-                for personagem in tabelaPersonagens.percorrer():
-                    if personagem is not None:
-                        if personagem.mass != "unknown":
-                            if minimo <= float( personagem.mass.replace( "," , "" ) ) <= maximo:
-                                print( "\nName: ", personagem.name )
-                                print( "Mass: ", personagem.mass ) 
-                                flag = True
-                if not flag:                      
-                    print( "Nenhum resultado encontrado." )                  
+                op = input("\nDeseja filtrar por intervalo (1) ou um valor exato (2)? ")
+                while op != '1' and op != '2':
+                    op = input("\nOpção Inválida. Digite novamente: ")
+
+                if op == '1':
+                    print( "Digite o intervalo de peso:" )
+                    minimo, maximo = ler_intervalo()
+                    resultados = gerenciadorPersonagens.buscar_intervalo_peso(minimo, maximo)
+                elif op == '2':
+                    peso = ler_valor("\nDigite a peso: ")
+                    resultados = gerenciadorPersonagens.buscar_peso(peso)
+
+                if resultados:
+                    for personagem in resultados:
+                        print(personagem)
+                else:
+                    print("Nenhum resultado encontrado.")               
             case "3":
                 print( "\n---Altura---" )
-                print( "Digite o intervalo de altura:" )
-                minimo, maximo = ler_intervalo()
 
-                flag = False
-                for personagem in tabelaPersonagens.percorrer():
-                    if personagem is not None:
-                        if personagem.height != "unknown":
-                            if minimo <= int( personagem.height ) <= maximo:
-                                print( "\nName: ", personagem.name )
-                                print( "Height: ", personagem.height ) 
-                                flag = True
-                if not flag:                      
-                    print( "Nenhum resultado encontrado." )              
+                op = input("\nDeseja filtrar por intervalo (1) ou um valor exato (2)? ")
+                while op != '1' and op != '2':
+                    op = input("\nOpção Inválida. Digite novamente: ")
+
+                if op == '1':
+                    print( "Digite o intervalo de altura:" )
+                    minimo, maximo = ler_intervalo()
+                    resultados = gerenciadorPersonagens.buscar_intervalo_altura(minimo, maximo)
+                elif op == '2':
+                    altura = ler_valor("\nDigite a altura: ")
+                    resultados = gerenciadorPersonagens.buscar_altura(altura)
+
+                if resultados:
+                    for personagem in resultados:
+                        print(personagem)
+                else:
+                    print("Nenhum resultado encontrado.")             
             case "4":
                 print( "\n---Gênero---" )
                 print( "Selecione o gênero:" )
@@ -204,7 +229,7 @@ def filtrarPersonagens(tabelaPersonagens):
                 
                 if opcao == "1":
                     flag = False
-                    for personagem in tabelaPersonagens.percorrer():
+                    for personagem in gerenciadorPersonagens:
                         if personagem is not None:
                             if( personagem.gender == "female" ):
                                 print( "\nName: ", personagem.name )
@@ -214,7 +239,7 @@ def filtrarPersonagens(tabelaPersonagens):
                         print( "Nenhum resultado encontrado." )
                 elif opcao == "2":
                     flag = False
-                    for personagem in tabelaPersonagens.percorrer():
+                    for personagem in gerenciadorPersonagens:
                         if personagem is not None:
                             if( personagem.gender == "male" ):
                                 print( "\nName: ", personagem.name )
@@ -234,35 +259,35 @@ def filtrarPersonagens(tabelaPersonagens):
                 flag = False  
                 match opcao:
                     case "1":
-                        for personagem in tabelaPersonagens.percorrer():
+                        for personagem in gerenciadorPersonagens:
                             if personagem is not None:
                                 if( personagem.eye_color == "black" ):
                                     print( "\nName: ", personagem.name )
                                     print( "Eye Color: ", personagem.eye_color )
                                     flag = True
                     case "2":
-                        for personagem in tabelaPersonagens.percorrer():
+                        for personagem in gerenciadorPersonagens:
                             if personagem is not None:
                                 if( personagem.eye_color == "brown" or personagem.eye_color == "hazel" ):
                                     print( "\nName: ", personagem.name )
                                     print( "Eye Color: ", personagem.eye_color )
                                     flag = True
                     case "3":
-                        for personagem in tabelaPersonagens.percorrer():
+                        for personagem in gerenciadorPersonagens:
                             if personagem is not None:
                                 if( personagem.eye_color == "blue" ):
                                     print( "\nName: ", personagem.name )
                                     print( "Eye Color: ", personagem.eye_color )
                                     flag = True
                     case "4":
-                        for personagem in tabelaPersonagens.percorrer():
+                        for personagem in gerenciadorPersonagens:
                             if personagem is not None:
                                 if( personagem.eye_color == "yellow" ):
                                     print( "\nName: ", personagem.name )
                                     print( "Eye Color: ", personagem.eye_color )
                                     flag = True
                     case "5":
-                        for personagem in tabelaPersonagens.percorrer():
+                        for personagem in gerenciadorPersonagens:
                             if personagem is not None:
                                 if personagem.eye_color not in [ "black", "brown", "hazel", "blue", "yellow", "" ]:
                                     print( "\nName: ", personagem.name )
@@ -273,7 +298,7 @@ def filtrarPersonagens(tabelaPersonagens):
             case "6":
                 flag = False
                 p = input( "Digite o planeta: \n" )
-                for personagem in tabelaPersonagens.percorrer():
+                for personagem in gerenciadorPersonagens:
                     if personagem is not None:
                         if( personagem.homeworld == p ):
                             print( "\nName: ", personagem.name )

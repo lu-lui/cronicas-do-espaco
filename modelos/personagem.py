@@ -10,7 +10,7 @@ class Personagem:
 
     def __str__(self):
         return (
-            f"Name: {self.name}\n" 
+            f"\nName: {self.name}\n" 
             f"Mass: {self.mass}\n" 
             f"Height: {self.height}\n" 
             f"Gender: {self.gender}\n"

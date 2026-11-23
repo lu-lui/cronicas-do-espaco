@@ -1,7 +1,7 @@
-def viagemEspacial( tabelaPersonagens, planetaSaida, planetaDestino, capacidade ):
+def viagemEspacial( gerenciadorPersonagens, planetaSaida, planetaDestino, capacidade ):
     pessoasPossiveis = []
 
-    for personagem in tabelaPersonagens.percorrer():
+    for personagem in gerenciadorPersonagens:
         if personagem.mass != "unknown":
             if personagem.homeworld == planetaSaida:
                 pessoasPossiveis.append( personagem )

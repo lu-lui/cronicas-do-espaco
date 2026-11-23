@@ -50,9 +50,7 @@ class TabelaHash(Estruturas):
     def fator_de_carga(self):
         return self.qtd_elementos / self.tamanho
 
-    def percorrer(self):
-        elementos = []
+    def __iter__(self):
         for elemento in self.tabela:
             if elemento is not None:
-                elementos.append(elemento[1])
-        return elementos
+                yield elemento[1]

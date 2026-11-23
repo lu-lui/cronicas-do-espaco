@@ -1,14 +1,15 @@
-from estruturas.tabela_hash import TabelaHash
+from estruturas.gerenciadorPersonagem import GerenciadorPersonagem
+from estruturas.gerenciadorPlaneta import GerenciadorPlaneta
 from dados.swapi import carregar_planetas, carregar_personagens
-from menu.menu import exibir_informacoes, menu
+from menu.menu import menu
 
-tabelaPlanetas = TabelaHash(89)
-tabelaPersonagens = TabelaHash(127)
+gerenciadorPlanetas = GerenciadorPlaneta(89)
+gerenciadorPersonagens = GerenciadorPersonagem(127)
 
-carregar_planetas(tabelaPlanetas)
-carregar_personagens(tabelaPersonagens)
+carregar_planetas(gerenciadorPlanetas)
+carregar_personagens(gerenciadorPersonagens)
 
-exibir_informacoes("Planetas__________________________________", tabelaPlanetas)
-exibir_informacoes("Personagens__________________________________", tabelaPersonagens)
+gerenciadorPlanetas.exibir_informacoes("Planetas__________________________________")
+gerenciadorPersonagens.exibir_informacoes("Personagens__________________________________")
 
-menu(tabelaPlanetas, tabelaPersonagens)
+menu(gerenciadorPlanetas, gerenciadorPersonagens)

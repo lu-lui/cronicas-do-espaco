@@ -10,8 +10,3 @@ class Estruturas(ABC): #contrato com as estruturas de dados
     #busca algo em específico
     def buscar(self, chave):
         pass
-
-    @abstractmethod
-    #nao sabe exatamente o que vai retornar
-    def percorrer(self):
-        pass

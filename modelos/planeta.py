@@ -9,7 +9,7 @@ class Planeta:
 
     def __str__(self):
         return (
-            f"Name: {self.name}\n" 
+            f"\nName: {self.name}\n" 
             f"Climate: {self.climate}\n" 
             f"Diameter: {self.diameter}\n" 
             f"Gravity: {self.gravity}\n" 

@@ -3,7 +3,7 @@ import requests #se der erro colocar no terminal "pip install requests"
 from modelos.planeta import Planeta
 from modelos.personagem import Personagem
 
-def carregar_planetas(tabela):
+def carregar_planetas(gerenciador):
     planetasLink = "https://swapi.dev/api/planets/"
 
     while planetasLink is not None:
@@ -19,11 +19,11 @@ def carregar_planetas(tabela):
                 planeta["gravity"],
                 planeta["population"]
             )
-            tabela.inserir(planeta["name"], novo_planeta)
+            gerenciador.inserir(planeta["name"], novo_planeta)
 
         planetasLink = planetasDados["next"]
 
-def carregar_personagens(tabela):
+def carregar_personagens(gerenciador):
     PersonagemLink = "https://swapi.dev/api/people/"
 
     while PersonagemLink is not None:
@@ -45,6 +45,6 @@ def carregar_personagens(tabela):
                 personagem["eye_color"],
                 nomeHomeworld
             )
-            tabela.inserir(personagem["name"], nova_personagem)
+            gerenciador.inserir(personagem["name"], nova_personagem)
 
         PersonagemLink = PersonagemDados["next"]
