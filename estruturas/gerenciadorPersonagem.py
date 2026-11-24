@@ -30,10 +30,8 @@ class GerenciadorPersonagem():
         else:
             return float(numero)
 
-    def exibir_informacoes(self, titulo):
-        print(titulo)
-        print("Fator de carga:", round(self.tabela_hash.fator_de_carga() * 100, 2), "%")
-        print("Número de colisões:", self.tabela_hash.colisoes)
+    def exibir_informacoes(self):
+        return f"Fator de carga: {round(self.tabela_hash.fator_de_carga() * 100, 2)} %\nNúmero de colisões: {self.tabela_hash.colisoes}"
 
     def buscar_nome(self, chave):
         chave = " ".join(chave.lower().split())
