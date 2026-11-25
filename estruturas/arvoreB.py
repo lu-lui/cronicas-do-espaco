@@ -117,14 +117,39 @@ class ArvoreB( Estruturas ):
         self.buscar_intervalo_aux( self.raiz, inicio, fim, resultado )
         return resultado
 
+    
     def buscar_intervalo_aux( self, no, inicio, fim, resultado ):
-        for i in range( len( no.chaves ) ):
-            #se o nó nn é folha procura o intervalo tbm nos filhos
+        for i in range( len( no.chaves ) + 1 ): #mais um pq é o número de filhos
+            #ex chaves: [30, 60]
+            #f1[i=0]     f2[i=1]    f3[i=2]
             if not no.folha:
-                self.buscar_intervalo_aux( no.filhos[ i ], inicio, fim, resultado )
+                if i != 0:
+                    #se o fim do intervalo é menor ou igual a chave anterior significa que o 
+                    #intervalo acabou antes dessa chave ou nela então nn veremos o filho entre 
+                    #a chave atual e a anterior pq ele já passou do limite superior
+                    if fim <= no.chaves[ i - 1 ]:
+                        limite_inferior_filho = False
+                    else:
+                        limite_inferior_filho = True
+                else:
+                    limite_inferior_filho = True
 
-            if inicio <= no.chaves[ i ] <= fim:
-                resultado.extend( no.registros[ i ] )
+                #se nn chegamos no final das chaves
+                if i != len( no.chaves ):
+                    #se o inicio do intervalo é maior ou igual a chave que estamos não tem pq
+                    #visitar o filho, pois o seu limite superior já ultrapassa o inicio
+                    if inicio >= no.chaves[ i ]:
+                        limite_superior_filho = False
+                    else:
+                        limite_superior_filho = True
+                else:
+                    limite_superior_filho = True
 
-        if not no.folha:
-            self.buscar_intervalo_aux( no.filhos[ -1 ], inicio, fim, resultado )    
+                #Só visitar o filho se as duas condições forem verdadeiras
+                if limite_inferior_filho and limite_superior_filho:
+                    self.buscar_intervalo_aux( no.filhos[ i ], inicio, fim, resultado )
+
+            #Verificar se a chave atual pertence ao intervalo
+            if i < len( no.chaves ):
+                if inicio <= no.chaves[ i ] <= fim:
+                    resultado.extend( no.registros[ i ] )
