@@ -1,16 +1,19 @@
 import tkinter as tk
 from PIL import Image, ImageTk #pras imagens - pip install pillow
 from .acoes import selecionar_busca_nome, selecionar_busca_prefixo, listar_todos, buscar_intervalo, pesquisar_valor, procurar_cor_olho, procurar_genero, procurar_homeworld, selecionar_busca_nome_pla, selecionar_busca_prefixo_plan, filtrar_clima, filtrar_gravidade
-from .missoes import viagem_mochila
+from navegacao.mochila import viagem_mochila
+from navegacao.caixeiro_viajante import planejarMissao_1
+from navegacao.ciclos import verificarCiclos1
 
 #janela principal
 def criar_janela(gerenciadorPersonagens, gerenciadorPlanetas):
     janela = tk.Tk()        #cria a janela
     janela.title("Star Wars")
-    janela.geometry("900x600")
+    janela.geometry("1000x600")
     #frames dentro da janela
     menu = tk.Frame(janela, bg="#252A38")
     painel = tk.Frame(janela, bg="#171923")
+    
     #grid() organiza os elementos em linhas e colunas 
     #sticky=nsew é pro frame se expandir em todas direções
     menu.grid(row = 0, column=0, sticky="nsew")
@@ -29,6 +32,18 @@ def criar_janela(gerenciadorPersonagens, gerenciadorPlanetas):
     label_capa = tk.Label(painel, image=capa_tk, bg="#171923")
     label_capa.image = capa_tk  #guardar referência
     label_capa.pack(anchor="n")
+
+    grafoPlanetas = Image.open("imagens/grafo_planetas.png")
+    grafoPlanetas = grafoPlanetas.resize((600, 400))
+    grafoPlanetas_tk = ImageTk.PhotoImage(grafoPlanetas)
+    label_grafoPlanetas = tk.Label(painel, image=grafoPlanetas_tk, bg="#171923")
+    label_grafoPlanetas.image = grafoPlanetas_tk 
+
+    grafoPersonagens = Image.open("imagens/grafo_personagens.png")
+    grafoPersonagens = grafoPersonagens.resize((600, 400))
+    grafoPersonagens_tk = ImageTk.PhotoImage(grafoPersonagens)
+    label_grafoPersonagens = tk.Label(painel, image=grafoPersonagens_tk, bg="#171923")
+    label_grafoPersonagens.image = grafoPersonagens_tk 
 
     #Funções Intermediárias
     def definir_acao(nova_acao):
@@ -166,14 +181,14 @@ def criar_janela(gerenciadorPersonagens, gerenciadorPlanetas):
     botao_personagens = tk.Button(menu, text="Personagens", bg="#001963", fg="white", command=mostrar_personagens)
     #->
     botao_buscar_nome_pers = tk.Button(opcoes_personagens, text="Pesquisar por nome", bg="#343B50", fg="white", 
-                                       command=lambda :selecionar_busca_nome(definir_acao, gerenciadorPersonagens, entrada, resultado, rotulo, label_capa))
+                                       command=lambda :selecionar_busca_nome(definir_acao, gerenciadorPersonagens, entrada, resultado, rotulo, label_capa, label_grafoPlanetas))
     botao_buscar_prefixo_pers = tk.Button(opcoes_personagens, text="Pesquisar por prefixo", bg="#343B50", fg="white", 
-                                          command=lambda :selecionar_busca_prefixo(definir_acao, gerenciadorPersonagens, entrada, resultado, rotulo, label_capa))
+                                          command=lambda :selecionar_busca_prefixo(definir_acao, gerenciadorPersonagens, entrada, resultado, rotulo, label_capa, label_grafoPlanetas))
     botao_filtrar_personagens = tk.Button(opcoes_personagens, text="Filtrar personagens", bg="#343B50", fg="white", 
                                           command=filtros_personagens)
     #-->
     botao_listar_todos = tk.Button(opcoes_filtros_pers, text="Listar todos", bg="#37487B", fg="white", 
-                                   command=lambda :listar_todos(gerenciadorPersonagens, gerenciadorPlanetas, "personagens", resultado, label_capa))
+                                   command=lambda :listar_todos(gerenciadorPersonagens, gerenciadorPlanetas, "personagens", resultado, label_capa, label_grafoPlanetas))
     botao_filtrar_peso = tk.Button(opcoes_filtros_pers, text="Filtrar por peso", bg="#37487B", fg="white", 
                                    command=filtros_peso)
     botao_filtrar_altura = tk.Button(opcoes_filtros_pers, text="Filtrar por altura", bg="#37487B", fg="white", 
@@ -183,33 +198,33 @@ def criar_janela(gerenciadorPersonagens, gerenciadorPlanetas):
     botao_filtrar_cor_olhos = tk.Button(opcoes_filtros_pers, text="Filtrar por cor dos olhos", bg="#37487B", fg="white", 
                                         command=filtros_olhos)
     botao_filtrar_por_planeta = tk.Button(opcoes_filtros_pers, text="Filtrar por planeta", bg="#37487B", fg="white",
-                                          command = lambda : procurar_homeworld(gerenciadorPersonagens, resultado, entrada, definir_acao, rotulo, label_capa))
+                                          command = lambda : procurar_homeworld(gerenciadorPersonagens, resultado, entrada, definir_acao, rotulo, label_capa, label_grafoPlanetas))
     #---> peso
     botao_peso_intervalo = tk.Button(opcoes_peso, text="Filtrar por intervalo", bg="#002699", fg="white", 
-                                     command=lambda :buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, "peso", rotulo, entrada, resultado, label_capa))
+                                     command=lambda :buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, "peso", rotulo, entrada, resultado, label_capa, label_grafoPlanetas))
     botao_peso_exato = tk.Button(opcoes_peso, text="Filtrar por valor exato", bg="#002699", fg="white", 
-                                 command=lambda : pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, "peso", entrada, resultado, definir_acao, rotulo, label_capa))
+                                 command=lambda : pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, "peso", entrada, resultado, definir_acao, rotulo, label_capa, label_grafoPlanetas))
     #--->altura
     botao_altura_intervalo = tk.Button(opcoes_altura, text="Filtrar por intervalo", bg="#002699", fg="white", 
-                                       command=lambda :buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, "altura", rotulo, entrada, resultado, label_capa))
+                                       command=lambda :buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, "altura", rotulo, entrada, resultado, label_capa, label_grafoPlanetas))
     botao_altura_exato = tk.Button(opcoes_altura, text="Filtrar por valor exato", bg="#002699", fg="white", 
-                                   command=lambda : pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, "altura", entrada, resultado, definir_acao, rotulo, label_capa))
+                                   command=lambda : pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, "altura", entrada, resultado, definir_acao, rotulo, label_capa, label_grafoPlanetas))
     #--->genero
     botao_genero_f = tk.Button(opcoes_genero, text="Feminino", bg="#002699", fg="white", 
-                               command = lambda : procurar_genero(gerenciadorPersonagens, resultado, "female", label_capa))
+                               command = lambda : procurar_genero(gerenciadorPersonagens, resultado, "female", label_capa, label_grafoPlanetas))
     botao_genero_m = tk.Button(opcoes_genero, text="Masculino", bg="#002699", fg="white",
-                               command = lambda : procurar_genero(gerenciadorPersonagens, resultado, "male", label_capa))
+                               command = lambda : procurar_genero(gerenciadorPersonagens, resultado, "male", label_capa, label_grafoPlanetas))
     #--->cor dos olhos
     botao_olho_preto = tk.Button(opcoes_cor_olhos, text="Preto", bg="#002699", fg="white",
-                                 command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, 0, label_capa))
+                                 command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, 0, label_capa, label_grafoPlanetas))
     botao_olho_castanho = tk.Button(opcoes_cor_olhos, text="Castanho", bg="#002699", fg="white",
-                                    command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, 1, label_capa))
+                                    command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, 1, label_capa, label_grafoPlanetas))
     botao_olho_azul = tk.Button(opcoes_cor_olhos, text="Azul", bg="#002699", fg="white",
-                                command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, 3, label_capa))
+                                command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, 3, label_capa, label_grafoPlanetas))
     botao_olho_amarelo = tk.Button(opcoes_cor_olhos, text="Amarelo", bg="#002699", fg="white",
-                                   command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, 4, label_capa))
+                                   command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, 4, label_capa, label_grafoPlanetas))
     botao_olho_colorido = tk.Button(opcoes_cor_olhos, text="Colorido", bg="#002699", fg="white",
-                                    command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, -1, label_capa))
+                                    command = lambda : procurar_cor_olho(gerenciadorPersonagens, resultado, -1, label_capa, label_grafoPlanetas))
     
     botao_personagens.pack(pady = 5, fill="x", ipady=8)
     botao_buscar_nome_pers.pack(fill="x", pady=4)
@@ -313,33 +328,33 @@ def criar_janela(gerenciadorPersonagens, gerenciadorPlanetas):
             opcoes_populacao.pack(fill="x")
 
     botao_planetas = tk.Button(menu, text="Planetas", bg="#001963", fg="white", command=mostrar_planetas)
-    botao_buscar_nome_plan = tk.Button(opcoes_planetas, text="Buscar por nome", bg="#343B50", fg="white", command= lambda :selecionar_busca_nome_pla(definir_acao, gerenciadorPlanetas, entrada, resultado, rotulo, label_capa))
-    botao_buscar_prefixo_plan = tk.Button(opcoes_planetas, text="Buscar por prefixo", bg="#343B50", fg="white", command=lambda :selecionar_busca_prefixo_plan(definir_acao, gerenciadorPlanetas, entrada, resultado, rotulo, label_capa))
+    botao_buscar_nome_plan = tk.Button(opcoes_planetas, text="Buscar por nome", bg="#343B50", fg="white", command= lambda :selecionar_busca_nome_pla(definir_acao, gerenciadorPlanetas, entrada, resultado, rotulo, label_capa, label_grafoPlanetas))
+    botao_buscar_prefixo_plan = tk.Button(opcoes_planetas, text="Buscar por prefixo", bg="#343B50", fg="white", command=lambda :selecionar_busca_prefixo_plan(definir_acao, gerenciadorPlanetas, entrada, resultado, rotulo, label_capa, label_grafoPlanetas))
     botao_filtrar_planetas = tk.Button(opcoes_planetas, text="Filtrar Planetas", bg="#343B50", fg="white", command=filtros_planetas)
     
-    botao_listar_todosPlanetas = tk.Button(opcoes_filtros_planetas, text="Listar todos", bg="#37487B", fg="white", command = lambda : listar_todos(gerenciadorPersonagens, gerenciadorPlanetas, "planetas", resultado, label_capa))
+    botao_listar_todosPlanetas = tk.Button(opcoes_filtros_planetas, text="Listar todos", bg="#37487B", fg="white", command = lambda : listar_todos(gerenciadorPersonagens, gerenciadorPlanetas, "planetas", resultado, label_capa, label_grafoPlanetas))
 
     botao_filtrar_clima = tk.Button(opcoes_filtros_planetas, text="Filtrar por clima", bg="#37487B", fg="white", command = filtros_clima)
-    botao_clima_temperado = tk.Button(opcoes_clima, text="Temperado", bg="#002699", fg="white", command=lambda : filtrar_clima(gerenciadorPlanetas, resultado, 0, label_capa))
+    botao_clima_temperado = tk.Button(opcoes_clima, text="Temperado", bg="#002699", fg="white", command=lambda : filtrar_clima(gerenciadorPlanetas, resultado, 0, label_capa, label_grafoPlanetas))
     botao_clima_arido = tk.Button(opcoes_clima, text="Arido", bg="#002699", fg="white",
-                                  command=lambda:filtrar_clima(gerenciadorPlanetas, resultado, 1, label_capa))
-    botao_clima_tropical = tk.Button(opcoes_clima, text="Tropical", bg="#002699", fg="white", command=lambda : filtrar_clima(gerenciadorPlanetas, resultado, 2, label_capa))
-    botao_clima_quente = tk.Button(opcoes_clima, text="Quente", bg="#002699",fg="white", command=lambda : filtrar_clima(gerenciadorPlanetas, resultado, 3, label_capa))
-    botao_clima_outros = tk.Button(opcoes_clima, text="Outros", bg="#002699", fg="white", command=lambda: filtrar_clima(gerenciadorPlanetas, resultado, -1, label_capa))
+                                  command=lambda:filtrar_clima(gerenciadorPlanetas, resultado, 1, label_capa, label_grafoPlanetas))
+    botao_clima_tropical = tk.Button(opcoes_clima, text="Tropical", bg="#002699", fg="white", command=lambda : filtrar_clima(gerenciadorPlanetas, resultado, 2, label_capa, label_grafoPlanetas))
+    botao_clima_quente = tk.Button(opcoes_clima, text="Quente", bg="#002699",fg="white", command=lambda : filtrar_clima(gerenciadorPlanetas, resultado, 3, label_capa, label_grafoPlanetas))
+    botao_clima_outros = tk.Button(opcoes_clima, text="Outros", bg="#002699", fg="white", command=lambda: filtrar_clima(gerenciadorPlanetas, resultado, -1, label_capa, label_grafoPlanetas))
 
     botao_filtrar_diametro = tk.Button(opcoes_filtros_planetas, text="Filtrar por diâmetro", bg="#37487B", fg="white", command= filtros_diametro)
     botao_diametro_intervalo = tk.Button(opcoes_diametro, text="Filtrar por intervalo", bg="#002699", fg="white", 
-                                     command=lambda :buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, "diametro", rotulo, entrada, resultado, label_capa))
+                                     command=lambda :buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, "diametro", rotulo, entrada, resultado, label_capa, label_grafoPlanetas))
     botao_diametro_exato = tk.Button(opcoes_diametro, text="Filtrar por valor exato", bg="#002699", fg="white", 
-                                 command=lambda : pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, "diametro", entrada, resultado, definir_acao, rotulo, label_capa))
+                                 command=lambda : pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, "diametro", entrada, resultado, definir_acao, rotulo, label_capa, label_grafoPlanetas))
 
-    botao_filtrar_gravidade = tk.Button(opcoes_filtros_planetas, text="Filtrar por gravidade", bg="#37487B", fg="white", command=lambda:filtrar_gravidade(definir_acao, gerenciadorPlanetas, entrada, rotulo, resultado, label_capa))
+    botao_filtrar_gravidade = tk.Button(opcoes_filtros_planetas, text="Filtrar por gravidade", bg="#37487B", fg="white", command=lambda:filtrar_gravidade(definir_acao, gerenciadorPlanetas, entrada, rotulo, resultado, label_capa, label_grafoPlanetas))
 
     botao_filtrar_populacao = tk.Button(opcoes_filtros_planetas, text="Filtrar por população", bg="#37487B", fg="white", command=filtros_populacao)
     botao_populacao_intervalo = tk.Button(opcoes_populacao, text="Filtrar por intervalo", bg="#002699", fg="white", 
-                                     command=lambda :buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, "populacao", rotulo, entrada, resultado, label_capa))
+                                     command=lambda :buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, "populacao", rotulo, entrada, resultado, label_capa, label_grafoPlanetas))
     botao_populacao_exato = tk.Button(opcoes_populacao, text="Filtrar por valor exato", bg="#002699", fg="white", 
-                                 command=lambda : pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, "populacao", entrada, resultado, definir_acao, rotulo, label_capa))
+                                 command=lambda : pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, "populacao", entrada, resultado, definir_acao, rotulo, label_capa, label_grafoPlanetas))
 
 
     botao_planetas.pack(pady=5, fill="x", ipady=8)
@@ -374,12 +389,19 @@ def criar_janela(gerenciadorPersonagens, gerenciadorPlanetas):
     
     botao_missoes = tk.Button(menu, text="Missões", bg="#001963", fg="white", command=mostrar_missoes)
     botao_viagem_mochila = tk.Button(opcoes_missoes, text="Viagem Espacial", bg="#343B50", fg="white", 
-                                           command=lambda :viagem_mochila( gerenciadorPersonagens, entrada, resultado, rotulo, definir_acao, label_capa))
-
+                                           command=lambda :viagem_mochila( gerenciadorPersonagens, gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao, label_capa, label_grafoPlanetas))
+    botao_planejarMissao = tk.Button(opcoes_missoes, text="Roteiro Exploração Espacial", bg="#343B50", fg="white", 
+                                               command=lambda :planejarMissao_1(gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao, label_capa, label_grafoPlanetas ))
+    botao_fluxoCom = tk.Button(opcoes_missoes, text="Fluxo Comunicação", bg="#343B50", fg="white")
+    botao_ciclos = tk.Button(opcoes_missoes, text="Testar GPS", bg="#343B50", fg="white", command=lambda : verificarCiclos1(gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao, label_capa, label_grafoPlanetas ))
+    
     botao_sair = tk.Button(menu, text="Sair", bg="#001963", fg="white", command = janela.destroy)
     
     botao_missoes.pack(pady=5, fill="x", ipady=8)
     botao_viagem_mochila.pack(pady = 4, fill="x")
+    botao_planejarMissao.pack(pady = 4, fill="x")
+    botao_fluxoCom.pack(pady = 4, fill="x")
+    botao_ciclos.pack(pady = 4, fill="x")
 
     botao_sair.pack(pady=5, fill="x", ipady=8)
 

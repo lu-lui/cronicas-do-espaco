@@ -1,16 +1,8 @@
-def ler_valor(entrada, resultado):
-    try:
-        return int(entrada.get())
-    except ValueError:
-        resultado.insert("end", "Digite apenas números\n")
-        return None
+from navegacao.funcoes_principais import ler_valor, limpar_terminal, alterar_rotulo
 
-def alterar_rotulo(texto, rotulo_entrada):
-    rotulo_entrada.config(text=texto)
-    return
+def selecionar_busca_nome(definir_acao, gerenciadorPersonagens, entrada, resultado, rotulo, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
 
-def selecionar_busca_nome(definir_acao, gerenciadorPersonagens, entrada, resultado, rotulo, label_capa ):
-    label_capa.pack_forget()
     alterar_rotulo("Digite o nome do personagem:", rotulo)
     definir_acao(lambda:pesquisar_personagem(gerenciadorPersonagens, entrada, resultado))
     return
@@ -30,8 +22,9 @@ def pesquisar_personagem(gerenciadorPersonagens, entrada, resultado):
         resultado.insert("end", "Personagem não encontrado.")
     return
 
-def selecionar_busca_prefixo(definir_acao, gerenciadorPersonagens, entrada, resultado, rotulo, label_capa ):
-    label_capa.pack_forget()
+def selecionar_busca_prefixo(definir_acao, gerenciadorPersonagens, entrada, resultado, rotulo, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
+
     alterar_rotulo("Digite o prefixo que busca: ", rotulo)
     definir_acao(lambda:pesquisar_personagem_prefixo(definir_acao, gerenciadorPersonagens, entrada, resultado, rotulo))
     return
@@ -72,8 +65,9 @@ def selecionar_personagem(personagens, entrada, resultado):
         resultado.insert("end", "\nDigite apenas números.")
     return
 
-def listar_todos(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, resultado, label_capa ):
-    label_capa.pack_forget()
+def listar_todos(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, resultado, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
+
     resultado.delete("1.0", "end")
     if tipo_busca == "personagens":
         for personagem in gerenciadorPersonagens:
@@ -83,23 +77,24 @@ def listar_todos(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, result
             resultado.insert("end", str(planeta) + "\n")
     return
 
-def buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, tipo_busca, rotulo, entrada, resultado, label_capa ):
-    label_capa.pack_forget()
+def buscar_intervalo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, tipo_busca, rotulo, entrada, resultado, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
+
     alterar_rotulo("Digite o valor mínimo: ", rotulo)
     definir_acao(lambda : ler_valor_minimo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, tipo_busca, entrada, resultado, rotulo))
     return
 
 def ler_valor_minimo(gerenciadorPersonagens, gerenciadorPlanetas, definir_acao, tipo_busca, entrada, resultado, rotulo):
-    minimo = ler_valor(entrada, resultado)
+    minimo = ler_valor(entrada, rotulo)
     entrada.delete(0, "end")
     if minimo is not None:
         alterar_rotulo("Digite o valor máximo:", rotulo)
-        definir_acao(lambda : ler_valor_maximo(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, minimo, entrada, resultado))
+        definir_acao(lambda : ler_valor_maximo(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, minimo, entrada, resultado, rotulo))
 
     return
 
-def ler_valor_maximo(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, minimo, entrada, resultado):
-    maximo = ler_valor(entrada, resultado)
+def ler_valor_maximo(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, minimo, entrada, resultado, rotulo):
+    maximo = ler_valor(entrada, rotulo)
     entrada.delete(0, "end")
     resultado.delete("1.0", "end")
     if maximo is not None:
@@ -124,14 +119,15 @@ def ler_valor_maximo(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, mi
 
     return
 
-def pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, entrada, resultado, definir_acao, rotulo, label_capa ):
-    label_capa.pack_forget()
+def pesquisar_valor(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, entrada, resultado, definir_acao, rotulo, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
+
     alterar_rotulo("Digite o valor que busca: ", rotulo)
-    definir_acao(lambda: busca_valor(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, entrada, resultado))
+    definir_acao(lambda: busca_valor(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, entrada, resultado, rotulo))
     return
 
-def busca_valor(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, entrada, resultado):
-    valor = ler_valor(entrada, resultado)
+def busca_valor(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, entrada, resultado, rotulo):
+    valor = ler_valor(entrada, rotulo)
     entrada.delete(0, "end")
 
     if valor is None:
@@ -155,8 +151,9 @@ def busca_valor(gerenciadorPersonagens, gerenciadorPlanetas, tipo_busca, entrada
 
     return
 
-def procurar_cor_olho(gerenciadorPersonagens, resultado, indice, label_capa ):
-    label_capa.pack_forget()
+def procurar_cor_olho(gerenciadorPersonagens, resultado, indice, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
+
     cores = [ "black", "brown", "hazel", "blue", "yellow", "" ]
     resultado.delete("1.0", "end")
     flag = False
@@ -178,8 +175,9 @@ def procurar_cor_olho(gerenciadorPersonagens, resultado, indice, label_capa ):
         resultado.insert("end", "Nenhum resultado encontrado.\n")
     return
 
-def procurar_genero(gerenciadorPersonagens, resultado, genero, label_capa ):
-    label_capa.pack_forget()
+def procurar_genero(gerenciadorPersonagens, resultado, genero, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
+
     resultado.delete("1.0", "end")
     flag = False
     for personagem in gerenciadorPersonagens:
@@ -190,8 +188,8 @@ def procurar_genero(gerenciadorPersonagens, resultado, genero, label_capa ):
         resultado.insert("end", "Nenhum resultado encontrado.\n")
     return
 
-def procurar_homeworld(gerenciadorPersonagens, resultado, entrada, definir_acao, rotulo, label_capa ):
-    label_capa.pack_forget()
+def procurar_homeworld(gerenciadorPersonagens, resultado, entrada, definir_acao, rotulo, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
     alterar_rotulo("Digite o planeta de origem: ", rotulo)
     definir_acao(lambda:pesquisar_homeworld(gerenciadorPersonagens, resultado, entrada))
 
@@ -211,8 +209,8 @@ def pesquisar_homeworld(gerenciadorPersonagens, resultado, entrada):
         resultado.insert("end", "Nenhum resultado encontrado.\n")
 
 
-def selecionar_busca_nome_pla(definir_acao, gerenciadorPlanetas, entrada, resultado, rotulo, label_capa ):
-    label_capa.pack_forget()
+def selecionar_busca_nome_pla(definir_acao, gerenciadorPlanetas, entrada, resultado, rotulo, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
     alterar_rotulo("Digite o nome do planeta:", rotulo)
     definir_acao(lambda:pesquisar_planeta(gerenciadorPlanetas, entrada, resultado))
     return
@@ -232,8 +230,8 @@ def pesquisar_planeta(gerenciadorPlanetas, entrada, resultado):
         resultado.insert("end", "Planeta não encontrado.")
     return
 
-def selecionar_busca_prefixo_plan(definir_acao, gerenciadorPlanetas, entrada, resultado, rotulo, label_capa ):
-    label_capa.pack_forget()
+def selecionar_busca_prefixo_plan(definir_acao, gerenciadorPlanetas, entrada, resultado, rotulo, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
     alterar_rotulo("Digite o prefixo que busca: ", rotulo)
     definir_acao(lambda:pesquisar_planeta_prefixo(definir_acao, gerenciadorPlanetas, entrada, resultado, rotulo))
     return
@@ -274,8 +272,8 @@ def selecionar_planeta(planetas, entrada, resultado):
         resultado.insert("end", "\nDigite apenas números.")
     return
 
-def filtrar_clima(gerenciadorPlanetas, resultado, clima, label_capa ):
-    label_capa.pack_forget()
+def filtrar_clima(gerenciadorPlanetas, resultado, clima, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
     climas = ["temperate", "arid", "tropical", "hot"]
     flag = False
     resultado.delete("1.0", "end")
@@ -293,8 +291,8 @@ def filtrar_clima(gerenciadorPlanetas, resultado, clima, label_capa ):
         resultado.insert("end", "Nenhum planeta encontrado com esse clima.")
     return
 
-def filtrar_gravidade(definir_acao, gerenciadorPlanetas, entrada, rotulo, resultado, label_capa ):
-    label_capa.pack_forget()
+def filtrar_gravidade(definir_acao, gerenciadorPlanetas, entrada, rotulo, resultado, label_capa, label_grafoPlanetas):
+    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
     alterar_rotulo("Digite a gravidade que busca: ", rotulo)
     definir_acao(lambda:gravidade(gerenciadorPlanetas, entrada, resultado, rotulo))
     return

@@ -37,6 +37,11 @@ class GerenciadorPlaneta():
         chave = " ".join(chave.lower().split())
         return self.tabela_hash.buscar(chave)
 
+    def e_planeta(self, chave):
+        chave = " ".join(chave.lower().split())
+        if self.tabela_hash.buscar(chave) is not None:
+            return True
+
     def buscar_prefixo(self, prefixo):
         prefixo = " ".join(prefixo.lower().split())
         return self.trie.buscar(prefixo)
