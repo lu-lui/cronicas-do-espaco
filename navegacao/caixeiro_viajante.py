@@ -60,8 +60,8 @@ def roteiro_missao(grafo, origem, destinos):
         return None, None
     return melhor["rota"], melhor["custo"]   
 
-def planejarMissao_1(gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao, label_capa, label_grafoPlanetas ):
-    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
+def planejarMissao_1(gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao, label_capa, label_grafoPlanetas, label_grafoPersonagens ):
+    limpar_terminal(label_grafoPersonagens, label_grafoPlanetas, label_capa, resultado)
     resultado.pack_forget()
     label_grafoPlanetas.pack(anchor="n")
     resultado.pack(side = "left", fill="both", expand=True)

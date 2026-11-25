@@ -2,8 +2,8 @@ from .caixeiro_viajante import criar_grafo, roteiro_missao, exibir
 from .funcoes_principais import ler_valor, limpar_terminal, alterar_rotulo
 
 #MISSAO 1
-def viagem_mochila( gerenciadorPersonagens, gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao, label_capa, label_grafoPlanetas):
-    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
+def viagem_mochila( gerenciadorPersonagens, gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao, label_capa, label_grafoPlanetas, label_grafoPersonagens):
+    limpar_terminal(label_grafoPersonagens, label_grafoPlanetas, label_capa, resultado)
     resultado.insert("end", "Vamos planejar uma viagem espacial, vamos ver quantas pessoas podemos levar de seu planeta de origem a outro conforme a capacidade da nave!\n")
     alterar_rotulo("Digite o planeta de saída: ", rotulo)
     definir_acao(lambda : planeta_saida(gerenciadorPersonagens, gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao))

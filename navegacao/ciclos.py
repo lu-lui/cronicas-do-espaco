@@ -29,8 +29,8 @@ def achar_ciclo_dfs(subgrafo, origem):
     return visitar(origem)
 
 
-def verificarCiclos1(gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao, label_capa, label_grafoPlanetas ):
-    limpar_terminal(label_grafoPlanetas, label_capa, resultado)
+def verificarCiclos1(gerenciadorPlanetas, entrada, resultado, rotulo, definir_acao, label_capa, label_grafoPlanetas, label_grafoPersonagens):
+    limpar_terminal(label_grafoPersonagens, label_grafoPlanetas, label_capa, resultado)
     grafo = criar_grafo(gerenciadorPlanetas, planetas_missao)
     resultado.pack_forget()
     label_grafoPlanetas.pack(anchor="n")
