@@ -23,7 +23,7 @@ class ArvoreB( Estruturas ):
             #inserir a chave na posição correta no nó
             #Ex:[20, 30, 60] queremos inserir 50 -> vai entre 30 e 60
             while i < len( no.chaves ) and no.chaves[ i ] < chave:
-                        i += 1
+                i += 1
 
             #VERIFICAR SE A CHAVE JÁ EXISTE
             #se nn chegou no indice dps da última chave e a 
