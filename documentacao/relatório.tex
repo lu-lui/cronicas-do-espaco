@@ -86,11 +86,11 @@ No presente relatório apresentaremos nossa solução algorítmica para o trabal
 O código fonte do trabalho se encontra disponível no repositório do GitHub "cronicas-do-espaco" e pode ser acessado pelo link: \url{https://github.com/lu-lui/cronicas-do-espaco} 
 
 \section{FONTE DE DADOS}
+
 \subsection{API escolhida}
 A API escolhida foi Star Wars API (SWAPI), pois é uma API muito completa que disponibiliza um grande banco de dados com informações sobre pessoas, planetas, naves e outros elementos do grande universo de Star Wars. Além de cumprir outros pré-requisitos do trabalho proposto, como requisições HTTP e retorno de dados em JSON.
 
 \subsection{Endpoints utilizados}
-
 \begin{itemize}
     \item Endpoint de planetas \\
     Exemplo de requisição: GET \url{http://swapi.dev/api/planets/.} Retorna os planetas cadastrados.
@@ -102,16 +102,16 @@ A API escolhida foi Star Wars API (SWAPI), pois é uma API muito completa que di
 O projeto foi dividido em pacotes de arquivos, abaixo consta uma breve descrição de cada um:
 
 \subsubsection{Dados}
-Pacote com o arquivo \texttt{"swapi.py"}, é ele quem faz a requisição de dados à API e gera a tabela hash de personagens e a de planetas.
+Pacote com o arquivo \texttt{"swapi.py"}, é ele quem faz a requisição de dados à API e manda os dados para os gerenciadores que criam as estruturas com esses dados.
 
 \subsubsection{Estruturas}
-Possui os arquivos de todas as estruturas de dados implementadas no trabalho, bem como arquivos que gerenciam o funcionamento de algumas funcções delas.
+Possui os arquivos de todas as estruturas de dados implementadas no trabalho, bem como arquivos que gerenciam o funcionamento de algumas funções delas.
 
 \subsubsection{Imagens}
 Aqui estão armazenadas todas as imagens utilizadas na interface gráfica do programa, são elas: a capa, o grafo de planetas e o grafo de personagens.
 
 \subsubsection{Interface}
-Pacote onde se concentra todo o código referente à interface gráfica do projeto, contendo os arquivos \texttt{janela\underline{ }principal.py}, que configura toda a parte visual e \texttt{acoes.py} que configura aa entradas/saídas presentes no programa.
+Pacote onde se concentra todo o código referente à interface gráfica do projeto, contendo os arquivos \texttt{janela\_principal.py}, que configura toda a parte visual e \texttt{acoes.py} que configura as entradas/saídas presentes no programa, bem como as funcionalidades de botões.
 
 \subsubsection{Modelos}
 As classes principais do projeto "Personagens" e "Planetas" estão armazenadas aqui, bem como seus atributos escolhidos para modelagem do banco de dados criado a partir delas.
@@ -123,19 +123,18 @@ Contém os arquivos de algoritmos usados na elaboração de todos os problemas r
 O arquivo \texttt{"main.py"} não está em um pacote e é o arquivo responsável por unir todas as partes do programa e fazer com que ele rode da melhor maneira possível.
 
 \subsection{Alterações feitas desde a parte 1}
-
-As principais mudanças feitas desde a parte um foram a divisão de um unico código \texttt{"starwars.py"} em diferentes pacotes com funções específicas e a implementação de uma interface gráfica que possibilita melhor interação do usuário com o sistema. Além de adições importantes ao menu de missões, como "Roteiro Exploração Expacial", "Fluxo Comunicação" e "Testar GPS", que serão melhor explicadas ao longo do relatório.
+As principais mudanças feitas desde a parte um foram a divisão de um único código \texttt{"starwars.py"} em diferentes pacotes com funções específicas e a implementação de uma interface gráfica que possibilita melhor interação do usuário com o sistema. Além de adições importantes ao menu de missões, como "Roteiro Exploração Expacial", "Fluxo Comunicação" e "Testar GPS", que serão melhor explicadas ao longo do relatório. Também implementamos as estruturas restantes, Trie e Árvore B, remodelando algumas funções já existentes para utilizar as novas estruturas de modo a otimizar seu funcionamento.
 
 \subsection{Interface}
 O projeto conta com a interface \texttt{"Estruturas"} que estabelece um contrato com todas as estruturas de dados presentes no código (Tabela Hash, Trie e Árvore B), onde todas implementam os métodos por ela estabelecidos.
 
 \subsection{Relação entre funcionalidades antigas e novas}
-No modelo anterior do trabalho, somente uma estrutura de dados era utilizada, a Tabela Hash, uma para planetas e outra para personagens, todos os dados eram armazenados e buscados nelas. Agora, na parte dois, foram implementadas duas novas estruturas de dados, como duas Tries, que guardam os prefixos dos nomes dos personagens e planetas, otimizando a busca e impressão de dados solicitados na tela e a Árvore B, uma para cada tipo de variável númerica presente no programa.
+No modelo anterior do trabalho, somente uma estrutura de dados era utilizada, a Tabela Hash, uma para planetas e outra para personagens, todos os dados eram armazenados e buscados nelas. Agora, na parte dois, foram implementadas duas novas estruturas de dados, a Tries (uma para cada modelo), que guarda os nomes dos personagens e planetas, otimizando a busca por prefixo, e a Árvore B, uma para cada tipo de variável númerica presente no programa, melhorando a busca de valores e intervalos.
 
 \section{MODELAGEM}
 
 \subsection{Representação dos Elementos}
-Cada personagem e cada planeta é representado por um dicionário contendo os atributos selecionados da resposta da API. Os valores são mantidos como texto, da forma como foram recebidos, e as variáveis numéricas são convertidas para número quandosolicitadas, por exemplo, ao serem requisitadas pela árvore B.
+Cada Personagem e cada Planeta é representado por uma classe contendo os atributos selecionados da resposta da API. Os valores são mantidos como texto, da forma como foram recebidos, e as variáveis numéricas são convertidas para número quando solicitadas, por exemplo, ao serem requisitadas pela árvore B para inserção.
 
 \subsection{Atributos utilizados}
 Para a tabela de personagens foram utilizados os atributos:
@@ -145,10 +144,9 @@ Para a tabela de personagens foram utilizados os atributos:
     \item mass
     \item height
     \item gender
-    \item eye\underline{ }color
+    \item eye\_color
     \item homeworld
 \end{itemize}
-
 
 Já para a tabela de planetas foram utilizados os atributos:
 
@@ -167,11 +165,11 @@ Em nosso código, optamos por escolher a Tabela Hash como estrutura de dados par
 Para a implementação de estrátegia gulosa, decidimos criar um problema de Otimização Logística (Opção A: Planejamento e Triagem de Missões).
 
 \subsubsection{Parte 2}
-Para a parte dois, separamos a procura integralmente em tabela hash para busca em outras estruturas de dados, conforme foi solicitado, usamos a trie para prefixos e arvore b para numeros, tambem decidimos fazer uma interface gráfica para melhor visualização de informações, principalmente visualização de grafos para planejamento de viagens e entrega de mensagens entre personagens.
-
+Para a parte dois, separamos a procura integralmente em tabela hash para busca em outras estruturas de dados, conforme foi solicitado, usamos a trie para prefixos e árvore B para números, tambem decidimos fazer uma interface gráfica para melhor visualização de informações, principalmente visualização de grafos para planejamento de viagens e entrega de mensagens entre personagens.
 
 \section{ESTRUTURA DE DADOS}
- Para a organização das informações obtidas após o acesso à API, a estrutura de dados escolhida foi a Tabela Hash, pois ela possibilita uma boa organização dos elementos em seu interior e tem custo de busca em média O(1), que torna ela uma estrutura rápida e de baixo custo. Porém com a adição de novas estruturas ao projeto, algumas de suas funções anteriores foram delegadas.
+
+ Para a organização das informações obtidas após o acesso à API, escolhemos como principal estrutura de dados a Tabela Hash, pois ela possibilita uma boa organização dos elementos em seu interior e tem custo de busca em média O(1), que torna ela uma estrutura rápida e de baixo custo. Porém com a adição de novas estruturas ao projeto, algumas de suas funções anteriores foram delegadas.
  
  \subsection{Tabela Hash}
 
@@ -179,18 +177,21 @@ Para a parte dois, separamos a procura integralmente em tabela hash para busca e
 Foram implementadas as operações:
 
 \begin{enumerate}
-    \item \texttt{fator\underline{ }de\underline{ }carga}\\
-    O usuário digita o nome de um determinado personagem e se ele estiver na tabela, são retornados todos os seus dados. Caso o personagem não seja encontrado, o sistema informa que não há resultados. 
+    \item \texttt{fator\_de\_carga}\\
+    Ao iniciar o programa são exibidos na tela o fator de carga e o número de colisões que cada tabela hash (personagens e planetas) sofreu. Essa função é responsável por realizar esse cálculo.
     \item \texttt{buscar}\\
     O usuário digita o nome de um determinado planeta e se ele estiver na tabela, são retornados todos os seus dados. Caso o personagem não seja encontrado, o sistema informa que não há resultados.
     \item \texttt{inserir}\\
-    O usuário pode listar todos os planetas ou filtrá-los por clima (temperado, árido, tropical, quente ou outros), por diâmetro e população (informando um intervalo com valores mínimo e máximo) e por gravidade (valor exato). Caso nenhum planeta satisfaça o critério, o sistema informa que não há resultados.
-    \item \texttt{funcao\underline{ }hash}\\
-Operação que usa estratégia gulosa para planejar uma viagem espacial com base na capacidade de peso de uma nave e o peso dos possíveis tripulantes. Será melhor explicado no tópico de "Algoritmo guloso escolhido". 
+    Recebemos uma chave e um registro e conforme o resultado da função hash inserimos o registro na posição adequada. Caso esta esteja ocupada realizamos sondagem quadrática até encontrar uma posição disponível.
+    \item \texttt{funcao\_hash}\\
+    Passamos por cada caractere da chave somando em uma variável o valor ASCII de cada letra e após concluir esse processo fazemos o módulo dessa soma pelo tamanho da tabela retornando para a função inserir esse resultado.
+    \item \texttt{\_\_iter\_\_}\\
+    Nesta função passamos pela tabela hash retornando um por vez cada registro presente na tabela.
 \end{enumerate}
 
 \subsubsection{Análise de complexidade das operações}
 A Tabela Hash utiliza endereçamento aberto com sondagem quadrática para tratar colisões: quando a posição calculada pela função hash já está ocupada, são testadas as posições $(h + i²) \mod tamanho}$, com i = 1, 2, 3, ... A função hash soma os códigos ASCII dos caracteres do nome e calcula o resto da divisão pelo tamanho da tabela, que é de 89 posições para planetas e 127 para personagens. Considerando m o tamanho do nome e n a quantidade de elementos armazenados:
+
 \begin{itemize}
     \item \texttt{funcao\_hash}: O(m), pois percorre cada caractere do nome uma única vez.
     \item \texttt{inserir}: O(m) para calcular a posição inicial, mais a sondagem. No caso médio poucas posições são testadas, então a inserção custa O(1) em relação a n. No pior caso, com muitas posições ocupadas em sequência, a sondagem pode testar até O(n) posições.
@@ -206,59 +207,60 @@ Começamos a árvore B estabelecendo para cada nó uma lista de filhos, uma de c
 
 \begin{enumerate}
     \item \texttt{inserir} \\
-Para inserir um valor na árvore, primeiro procuramos no nó atual (começando pela raiz) em qual posição entre as chaves aquele valor deveria ser posicionado. Se aquele valor já existe como chave na árvore, apenas adicionamos seu registro à lista de registros correspondente. Se o valor ainda não possui uma chave, verificamos se o nó atual é uma folha e, se sim, inserimos a chave e seu registro na posição correta. Caso contrário, passamos para o filho correspondente do nó atual e seguimos procurando até encontrar um nó folha para inserir a chave ou encontrar a própria chave e adicionar seu registro.
-
-\item \texttt{dividir\underline{ }no} \\
-Caso, ao inserir a chave em um nó folha, ultrapassemos o limite estabelecido, chamamos a função dividir nó para realizar o procedimento de divisão. Essa função encontra a mediana das chaves e promove essa chave, juntamente com seus registros associados, para o nó pai. Os valores à sua esquerda e à sua direita são separados em dois novos nós, que passarão a ser filhos do nó pai. Caso o nó pai também ultrapasse o limite de chaves, a divisão é chamada recursivamente até que a estrutura esteja novamente adequada. Caso seja necessário dividir a própria raiz, criamos uma nova raiz contendo a chave mediana promovida, enquanto os dois nós resultantes da divisão passam a ser seus filhos.
-
-\item \texttt{buscar}
-A função buscar serve para procurar um valor exato na árvore. Para isso, realizamos um processo parecido com o início da inserção: começando pela raiz, procuramos a posição dentro do nó onde a chave estaria, já que as chaves são mantidas em ordem crescente. Se encontrarmos a chave no nó, retornamos os registros armazenados em sua posição. Caso contrário, seguimos procurando em seus filhos, sempre respeitando a ordem e a posição encontrada, pois assim a busca se torna mais eficiente. Caso cheguemos a um nó folha que não contém a chave, significa que ela não está na árvore e retornamos None.
-
-\item \texttt{buscar\underline{ }intervalo} \\
-Já na função de buscar por intervalo, recebemos um valor mínimo e um máximo e procuramos todas as chaves que pertencem a esse intervalo. Para isso, percorremos as chaves de cada nó e, quando o nó não é uma folha, também visitamos seus filhos, pois eles podem conter valores pertencentes ao intervalo. Dessa forma, percorremos os filhos entre as chaves e também o último filho, armazenando os registros correspondentes às chaves encontradas em uma lista, que será retornada ao final da busca
+    Para inserir um valor na árvore, primeiro procuramos no nó atual (começando pela raiz) em qual posição entre as chaves aquele valor deveria ser posicionado. Se aquele valor já existe como chave na árvore, apenas adicionamos seu registro à lista de registros correspondente. Se o valor ainda não possui uma chave, verificamos se o nó atual é uma folha e, se sim, inserimos a chave e seu registro na posição correta. Caso contrário, passamos para o filho correspondente do nó atual e seguimos procurando até encontrar um nó folha para inserir a chave ou encontrar a própria chave e adicionar seu registro.
+    
+    \item \texttt{dividir\_no} \\
+    Caso, ao inserir a chave em um nó folha, ultrapassemos o limite estabelecido, chamamos a função dividir nó para realizar o procedimento de divisão. Essa função encontra a mediana das chaves e promove essa chave, juntamente com seus registros associados, para o nó pai. Os valores à sua esquerda e à sua direita são separados em dois novos nós, que passarão a ser filhos do nó pai. Caso o nó pai também ultrapasse o limite de chaves, a divisão é chamada recursivamente até que a estrutura esteja novamente adequada. Caso seja necessário dividir a própria raiz, criamos uma nova raiz contendo a chave mediana promovida, enquanto os dois nós resultantes da divisão passam a ser seus filhos.
+    
+    \item \texttt{buscar} \\
+    A função buscar serve para procurar um valor exato na árvore. Para isso, realizamos um processo parecido com o início da inserção: começando pela raiz, procuramos a posição dentro do nó onde a chave estaria, já que as chaves são mantidas em ordem crescente. Se encontrarmos a chave no nó, retornamos os registros armazenados em sua posição. Caso contrário, seguimos procurando em seus filhos, sempre respeitando a ordem e a posição encontrada, pois assim a busca se torna mais eficiente. Caso cheguemos a um nó folha que não contém a chave, significa que ela não está na árvore e retornamos None.
+    
+    \item \texttt{buscar\_}intervalo} \\
+    Já na função de buscar por intervalo, recebemos um valor mínimo e um máximo e procuramos todas as chaves que pertencem a esse intervalo. Para isso, percorremos as chaves de cada nó e, quando o nó não é uma folha, também visitamos seus filhos, pois eles podem conter valores pertencentes ao intervalo. Dessa forma, percorremos os filhos entre as chaves e também o último filho, armazenando os registros correspondentes às chaves encontradas em uma lista, que será retornada ao final da busca.
 \end{enumerate}
 
 \subsubsection{Análise de complexidade das operações}
-A operação de \texttt{inserção} possui complexidade O(log n), pois percorre a altura da árvore para encontrar a posição adequada e pode realizar divisões de nós até a raiz. A função \texttt{dividir\underline{ }no} também possui complexidade O(log n) no pior caso, pois a divisão pode ser propagada pelos níveis da árvore.
+A operação de \texttt{inserção} possui complexidade O(log n), pois percorre a altura da árvore para encontrar a posição adequada e pode realizar divisões de nós até a raiz. A função \texttt{dividir\_no} também possui complexidade O(log n) no pior caso, pois a divisão pode ser propagada pelos níveis da árvore.
 
 A operação de \texttt{busca} apresenta complexidade O(log n), uma vez que percorre apenas um caminho da raiz até uma folha. Já a \texttt{busca por intervalo} possui complexidade O(log n + k), sendo k a quantidade de chaves encontradas. Isso ocorre porque a implementação utiliza a ordenação das chaves para evitar visitar filhos que não podem conter resultados dentro do intervalo, reduzindo a quantidade de nós percorridos. Considerando também os registros associados às chaves encontradas, a complexidade pode ser expressa como O(log n + k + r), em que r representa a quantidade total de registros retornados.
 
 \subsection{Trie}
-\subsubsection{Operações Implementadas}
 
+\subsubsection{Operações Implementadas}
 \begin{enumerate}
     \item \texttt{inserir} \\
-    Para a Trie, começamos estabelecendo que cada nó teria um dicionário de filhos, um marcador de fim de palavra e um registro associado. Inicializamos sua raiz e criamos a função  inserir, que recebe uma chave e um registro. Para cada caractere da chave (nome de personagem ou planeta), verifica se o caractere está entre os filhos do nó atual, começando sempre pela raiz. Se não estiver, inserimos um novo nó correspondente ao caractere. Em seguida, seguimos para esse nó e continuamos para o próximo caractere até chegar ao final da chave. Ao terminar esse processo, marcamos o último nó com  \texttt{fim\underline{ }da\underline{}palavra = True} e guardamos nele o registro referente à chave. Os nós que não representam o final de uma palavra ficam com o registro vazio (None)
+    Para a Trie, começamos estabelecendo que cada nó teria um dicionário de filhos, um marcador de fim de palavra e um registro associado. Inicializamos sua raiz e criamos a função  inserir, que recebe uma chave e um registro. Para cada caractere da chave (nome de personagem ou planeta), verifica se o caractere está entre os filhos do nó atual, começando sempre pela raiz. Se não estiver, inserimos um novo nó correspondente ao caractere. Em seguida, seguimos para esse nó e continuamos para o próximo caractere até chegar ao final da chave. Ao terminar esse processo, marcamos o último nó com  \texttt{fim\_da\_palavra = True} e guardamos nele o registro referente à chave. Os nós que não representam o final de uma palavra ficam com o registro vazio (None).
 
     \item \texttt{percorrer} \\
     Na função percorrer, percorremos todos os caminhos a partir do nó recebido utilizando busca em profundidade (DFS), de forma recursiva. Primeiro verificamos se o nó atual marca o final de uma palavra. Se marcar, adicionamos seu registro à lista de resultados. Depois, percorremos todos os seus filhos, repetindo o processo até visitar os caminhos existentes abaixo daquele nó.
 
     \item \texttt{buscar} \\
-Já para a função buscar, recebemos uma chave ou prefixo e fazemos um procedimento parecido com o da inserção: para cada letra, verificamos se ela está entre os filhos do nó atual. Se não estiver, retornamos uma lista vazia, pois não existem palavras que correspondam àquele prefixo na Trie. Se estiver, seguimos para o nó correspondente até chegar ao final da chave. Quando encontramos todo o caminho, chamamos a função percorrer para procurar todas as palavras que começam com aquele prefixo e adicionar seus registros à lista de resultados, que será retornada ao final da busca.
-
-\item \texttt{\underline{  }iter\underline{  }}} \\
-Por fim, temos a função  \underline{  }iter\underline{  }, que permite percorrer os registros armazenados na Trie utilizando um laço for. Para isso, criamos uma lista de resultados, chamamos a função percorrer a partir da raiz e utilizamos yield from para retornar cada registro encontrado.
-
+    Já para a função buscar, recebemos uma chave ou prefixo e fazemos um procedimento parecido com o da inserção: para cada letra, verificamos se ela está entre os filhos do nó atual. Se não estiver, retornamos uma lista vazia, pois não existem palavras que correspondam àquele prefixo na Trie. Se estiver, seguimos para o nó correspondente até chegar ao final da chave. Quando encontramos todo o caminho, chamamos a função percorrer para procurar todas as palavras que começam com aquele prefixo e adicionar seus registros à lista de resultados, que será retornada ao final da busca.
+    
+    \item \texttt{\underline{  }iter\underline{  }}} \\
+    Por fim, temos a função  \underline{  }iter\underline{  }, que permite percorrer os registros armazenados na Trie utilizando um laço for. Para isso, criamos uma lista de resultados, chamamos a função percorrer a partir da raiz e utilizamos yield from para retornar cada registro encontrado.
 \end{enumerate}
 
 \subsubsection{Análise de complexidade das operações}
 Considerando m como o tamanho da chave e p como a quantidade de nós percorridos durante a recuperação dos resultados:
-inserir: O(m), pois percorre cada caractere da chave uma única vez, realizando operações de consulta e inserção no dicionário.
-buscar: O(m + p), pois primeiro percorre os caracteres da chave ou prefixo e, depois, percorre os nós abaixo do prefixo encontrado para recuperar os registros.
-percorrer: O(p), pois visita todos os nós existentes a partir do nó recebido.
-\underline{}iter\underline{ }: O(N), em que N representa a quantidade total de nós da Trie, pois percorre toda a estrutura a partir da raiz para recuperar os registros.
+\begin{itemize}
+    \item \texttt{inserir}: O(m), pois percorre cada caractere da chave uma única vez, realizando operações de consulta e inserção no dicionário.
+    \item \texttt{buscar}: O(m + p), pois primeiro percorre os caracteres da chave ou prefixo e, depois, percorre os nós abaixo do prefixo encontrado para recuperar os registros.
+    \item \texttt{percorrer}: O(p), pois visita todos os nós existentes a partir do nó recebido.
+    \item \texttt{\_\_iter\_\_}: O(N), em que N representa a quantidade total de nós da Trie, pois percorre toda a estrutura a partir da raiz para recuperar os registros
+\end{itemize}
 
 \subsection{Resultados e limitações}
 Com as três estruturas, cada tipo de consulta passou a ter a estrutura mais adequada: a busca por nome exato é feita na tabela hash, a busca por prefixo na Trie e as buscas por valor exato ou por intervalo (peso, altura, diâmetro e população) nas árvores B.
 
 As principais limitações encontradas foram:
-
 \begin{itemize}
     \item Tabela hash: O tamanho é fixo e definido na criação da tabela, sem redimensionamento automático, e a operação de remoção não foi implementada. 
     \item Trie: Cada caractere do nome ocupa um nó, sem compressão de caminhos, então o consumo de memória cresce com o total de caracteres armazenados.
 \end{itemize}
 
 \section{OTIMIZAÇÃO DE RECURSOS}
+
 \subsection{Formulação do problema}
 Para o problema de gestão de recursos, criamos o problema \texttt{enviar mensagem espacial}, onde usamos o algoritmo de Ford-Fulkerson para calcular o fluxo máximo de mensagens em um grafo ponderado com oito personagens da saga Star Wars.
 
@@ -266,22 +268,21 @@ Para o problema de gestão de recursos, criamos o problema \texttt{enviar mensag
     \centering
     \includegraphics[width=0.5\linewidth]{grafo base.png}
     \caption{Grafo base usado na criação do grafo de personagens}
-    \label{fig:placeholder}
+    
 \end{figure}
 
-O grafo base possui dez arestas, portanto, foi modificado de maneira a ser utilizado por apenas oito personagens.
+O grafo base possui dez vértices, portanto, foi modificado de maneira a ser utilizado por apenas oito personagens.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{grafo-personagens.jpeg}
     \caption{Grafo com os personagens do problema de otimização de recursos}
-    \label{fig:placeholder}
+    
 \end{figure}
 
-Foram escolhidos 10 personagens do Lado Luminoso da força de Star Wars, para que o sistema possa ser utilizado de maneira realista e possibilite troca de mensagens e informações entre aliados.
+Foram escolhidos 8 personagens do Lado Luminoso da força de Star Wars, para que o sistema possa ser utilizado de maneira realista e possibilite troca de mensagens e informações entre aliados.
 
 \subsection{Restrições e objetivo considerados}
-
 A restrição escolhida foi que cada caminho entre personagens consegue levar um número máximo X de mensagens de um lado a outro, baseado nisso, formulamos um programa onde o usuário escolhe o remetente e o destinatário das mensagens a serem enviadas, bem como a quantidade das mesmas, após a requisição o programa retorna ao usuário se o número de mensagens solicitadas pode ser entregue ou não.
 
 \subsection{Descrição da solução implementada}
@@ -290,46 +291,41 @@ Cada personagem é um vértice, e cada ligação entre dois personagens é uma a
 Para calcular o fluxo máximo entre remetente e destinatário foi usado o algoritmo de Ford-Fulkerson. Ele procura, com uma busca em profundidade, um caminho da origem ao destino com capacidade restante em todas as arestas, envia por ele a menor capacidade encontrada (o gargalo), atualiza as capacidades restantes e repete até não existir mais caminho. A soma dos valores enviados é o fluxo máximo. Se a quantidade de mensagens pedida for maior que esse valor, o sistema informa que o envio não é possível.
 
 \subsection{Análise de complexidade}
-Sendo N o número de vértices, M o número de arestas e X o valor do fluxo máximo, cada busca em profundidade custa O(N * M), pois a lista de visitados é uma lista comum. Como as capacidades são inteiras, cada caminho envia pelo menos uma unidade de fluxo, então há no máximo f caminhos, e a complexidade total é O(X * N * M). Com apenas 8 vértices, o tempo de execução é desprezível.
+Sendo N o número de vértices, M o número de arestas e X o valor do fluxo máximo, cada busca em profundidade custa O(N * M), pois a lista de visitados é uma lista comum. Como as capacidades são inteiras, cada caminho envia pelo menos uma unidade de fluxo, então há no máximo X caminhos, e a complexidade total é O(X * N * M). Com apenas 8 vértices, o tempo de execução é desprezível.
 
 \subsection{Resultados e limitações}
 A limitação encontrada é o fato de as mensagens não serem enviadas caso ultrapassem o número máximo de mensagens possíveis entre um personagem e outro.
 
 \subsection{Exemplos de execução}
-As imagens a seguir demonstras o passo a passo da execução do programa de duas maneiras diferentes, uma quando as mensagens são enviadas com sucesso e outra quando as mensagens são enviadas, pois excedem o valor máximo
+As imagens a seguir demonstras o passo a passo da execução do programa de duas maneiras diferentes, uma quando as mensagens são enviadas com sucesso e outra quando as mensagens são enviadas, pois excedem o valor máximo.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{tela missoes.png}
     \caption{Passo 1 - Clicar no botão "missões"}
-    \label{fig:placeholder}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{fluxo.png}
     \caption{Passo 2 - Clicar em "Fluxo Comunicação"}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{remetente.png}
     \caption{Passo 3 - Escolher o remetente (Exemplo: Chewbacca)}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{destinatario.png}
     \caption{Passo 4 - Escolher o destinatário (Exemplo: Yoda)}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{sucesso-envio.png}
     \caption{Passo 5 - Definir a quantidade de mensagens a serem enviadas (Exemplo - 12 mensagens)}
-    \label{fig:placeholder}
 \end{figure}
 
 Acima é mostrado um sucesso no envio da mensagem, onde é impresso ao usuário a confirmação de envio e as opções escolhidas, abaixo é mostrado um exemplo de falha no envio de mensagens, por conta do limite máximo ser excedido entre os mesmos personagens (Yoda e Chewbacca).
@@ -338,19 +334,16 @@ Acima é mostrado um sucesso no envio da mensagem, onde é impresso ao usuário 
     \centering
     \includegraphics[width=0.5\linewidth]{falha-envio.png}
     \caption{Exemplo de falha - 28 mensagens}
-    \label{fig:placeholder}
 \end{figure}
-
 
 \section{REDES E PLANEJAMENTO}
 
 \subsection{Modelagem dos elementos e das relações}
-Para a implementação do algoritmo de redes e planejamento de missões, modelamos um grafo com 10 planetas que estão presentes na API, utilizando distâncias parecidas e gerando conexões ponderadas entre elas. Ao longo da interação com o usuário, é gerado um novo subgrafo direcionado com a rota a ser sequida pela nave durante a viagem.
+Para a implementação do algoritmo de redes e planejamento de missões, modelamos um grafo com 10 planetas que estão presentes na API, utilizando distâncias parecidas e gerando conexões ponderadas entre elas. Ao longo da interação com o usuário, é gerado um novo subgrafo direcionado com a rota a ser seguida pela nave durante a viagem.
 
-\subsection{Descrição do problema funcionalidades desenvolvidas}
-O GPS de uma nsve ainda não foi configurado completamente e pode se perder caso encontre ciclos. O programa possibilita com que o usuário crie sua rota de viagem e após isso, devolve ao mesmo se o seu percurso possui ciclos ou não e se a viagem é possível. 
+\subsection{Descrição do problema e funcionalidades desenvolvidas}
+O GPS de uma nave ainda não foi configurado completamente e pode se perder caso encontre ciclos. O programa possibilita com que o usuário crie sua rota de viagem e após isso, devolve ao mesmo se o seu percurso possui ciclos ou não e se a viagem é possível. 
 
-\subsection{Análise da complexidade dos procedimentos implementados}
 \subsection{Análise da complexidade dos procedimentos implementados}
 A detecção de ciclos usa a busca em profundidade com três cores, que visita cada vértice e cada aresta do subgrafo uma única vez, com custo O(n + m), sendo n o número de planetas e m o número de arestas do subgrafo criado pela rota. A construção do subgrafo custa O(1) por planeta escolhido, e o espaço extra usado é O(n), para as cores e para a pilha de recursão.
 
@@ -358,41 +351,36 @@ A detecção de ciclos usa a busca em profundidade com três cores, que visita c
 O programa não permite que o usuário crie um caminho que não passe por vértices adjacentes. Portanto, a detecção de ciclos acontece em um espaço limitado. 
 
 \subsection{Exemplos de execução}
-
-O exemplo visual abaixo mostra como é feito o uso da funcionalidade "Testar GPS"
+O exemplo visual abaixo mostra como é feito o uso da funcionalidade "Testar GPS":
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{tela missoes.png}
     \caption{Passo 1 - Clicar no botão "missões"}
-    \label{fig:placeholder}
 \end{figure}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{gps.png}
     \caption{Passo 2 - Clicar em "Testar GPS"}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{gps-origem.png}
     \caption{Passo 3 - Selecionar o planeta de origem}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{adjacente.png}
     \caption{Passo 4 - Definir a rota de viagem, escolhendo sempre um planeta adjacente ao último escolhido (clicar "0" para terminar a escolha)}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{ciclo.png}
     \caption{É retornado ao usuário a rota de viagem completa e se ela possui ciclos ou não.}
-    \label{fig:placeholder}
 \end{figure}
 
 \section{FUNCIONALIDADE ADICIONAL}
@@ -400,39 +388,34 @@ O exemplo visual abaixo mostra como é feito o uso da funcionalidade "Testar GPS
 \subsection{Opção selecionada}
 Escolhemos a Opção C — "Roteiro de exploração com múltiplos destinos (caixeiro-viajante simplificado)"
 
-
 \subsection{Descrição do problema}
 O usuário escolhe um planeta de origem e os planetas que a nave deve visitar, e o sistema devolve o roteiro de menor custo que sai da origem, passa por todos eles e volta à origem. O roteiro só usa rotas que existem no grafo, não repete planetas (exceto a origem, que fecha o percurso) e pode atravessar outros planetas no caminho.
 
 \subsection{Decisões de modelagem}
 
-Para a funcionalidade adicional, utilizamos o mesmo grafo modelado no programa de otimização de recursos, mas com um novo propósito.
+Para a funcionalidade adicional, utilizamos o mesmo grafo modelado no programa de Redes e Planejamento, mas com um novo propósito.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{grafo real.png}
-    \caption{Mapa real entre planetas de Star Wars e grafo base criado a partir dele.}
-    \label{fig:placeholder}
+    \caption{Mapa real entre planetas de Star Wars e grafo base criado a partir dele.} 
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{grafo-modificado.jpeg}
-    \caption{Grafo final usado da interface gráfica do programa.}
-    \label{fig:placeholder}
+    \caption{Grafo final usado na interface gráfica do programa.}
 \end{figure}
 
 \subsection{Definição dos custos, capacidades e dependências}
-
 O resultado obtido é o caminho da nave da origem ao destino e posteriormente, sua volta. O custo da viagem também é impresso.
 Como citado anteriormente, os custos foram definidos a partir da localização real entre planetas, sendo atribuídos custos entre 1 e 12, tentando manter escalas parecidas com as originais.
 
 \subsection{Solução implementada}
-A solução usa busca em profundidade (DFS)). A busca sai da origem e vai visitando vizinhos que ainda não estão no caminho, somando o custo das arestas. Quando todos os destinos já estão no caminho e existe uma rota de volta à origem, o roteiro está completo e seu custo é comparado ao melhor encontrado até então. O melhor custo começa em infinito, então o primeiro roteiro completo sempre se torna o melhor. Se o custo de um caminho já é maior ou igual ao do melhor roteiro, ele é abandonado. Ao final, o sistema imprime o roteiro e o custo total, ou informa que não existe roteiro que respeite as condições.
+A solução usa busca em profundidade (DFS). A busca sai da origem e vai visitando vizinhos que ainda não estão no caminho, somando o custo das arestas. Quando todos os destinos já estão no caminho e existe uma rota de volta à origem, o roteiro está completo e seu custo é comparado ao melhor encontrado até então. O melhor custo começa em infinito, então o primeiro roteiro completo sempre se torna o melhor. Se o custo de um caminho já é maior ou igual ao do melhor roteiro, ele é abandonado. Ao final, o sistema imprime o roteiro e o custo total, ou informa que não existe roteiro que respeite as condições.
 
 \subsection{Análise de complexidade e limitações}
-
-O pior caso a busca examina todos os caminhos simples a partir da origem, o que dá O(n!), sendo n o número de planetas. Cortar caminhos que não serão utilizados reduz o trabalho na prática, mas não muda o pior caso. O espaço extra é O(n). Como o custo é muito alto, o algorítmo só desempenha bem em grafos pequenos. Além disso, algumas escolhas de destinos não têm solução.
+No pior caso, a busca examina todos os caminhos simples a partir da origem, o que dá O(n!), sendo n o número de planetas. Cortar caminhos que não serão utilizados reduz o trabalho na prática, mas não muda o pior caso. O espaço extra é O(n). Como o custo é muito alto, o algoritmo só desempenha bem em grafos pequenos. Além disso, algumas escolhas de destinos não têm solução.
 
 \subsection{Exemplos de execução}
 
@@ -440,37 +423,31 @@ O pior caso a busca examina todos os caminhos simples a partir da origem, o que 
     \centering
     \includegraphics[width=0.5\linewidth]{tela missoes.png}
     \caption{Passo 1 - Clicar em "Missões"}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{roteiro.png}
     \caption{Passo 2 - Clicar em "Roteiro Exploração Espacial".}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{origem-exploracao.png}
     \caption{Passo 3 - Escolher o planeta de origem. Exemplo: Chandrila}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{destino-exp.png}
     \caption{Passo 4 - Escolher os planetas a serem visitados, um a um, digitando 0 após o fim das escolhas.}
-    \label{fig:placeholder}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{resultado-roteiro.png}
     \caption{Resultado impresso na tela: Roteiro de exploração e custo total calculado.}
-    \label{fig:placeholder}
 \end{figure}
-
 
 \section{ALGORITMO GULOSO ESCOLHIDO}
 
@@ -502,7 +479,6 @@ A solução é ótima, porque o algoritmo escolhe sempre os personagens mais lev
 Casos especiais: se não houver personagens no planeta de partida, ou se nenhum couber na nave, o resultado é zero passageiros. Personagens com peso desconhecido ficam de fora, pois não é possível verificar se cabem.
 
 \section{INTEGRAÇÃO E TESTES}
-A integração
 A integração da estrutura com o sistema se dá a partir do momento em que o programa faz a consulta a API, para cada endpoint utilizado uma Tabela Hash é montada (uma para planetas e outra para personagens). 
 Ao rodarmos o programa, essa é a primeira coisa a ser feita, após o preenchimento de cada tabela, é mostrado na tela seu fator de carga e número de colisões no carregamento.
 
@@ -513,7 +489,6 @@ Para a compilação e execução do programa, o usuário deve possuir a extensã
 
 Após isso um novo aplicativo aparecerá na área de trabalho e é necessário que se clique nele.
 
-
 \subsection{Exemplos de utilização do sistema}
 
 Após a pasta se aberta em um editor de texto ou terminal, executar as seguintes ações:
@@ -521,21 +496,18 @@ Após a pasta se aberta em um editor de texto ou terminal, executar as seguintes
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{Passo 1_.png}
-    \caption{Instruções de execução}
-    \label{fig:placeholder}
+    \caption{Instruções de execução}    
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{inicio.png}
-    \caption{A tela de início do programa e mostrada e o sistema está pronto para utilização.}
-    \label{fig:placeholder}
+    \caption{A tela de início do programa é   mostrada e o sistema está pronto para utilização.}
 \end{figure}
 
 \section{CONCLUSÃO}
-Em suma, fizemos um programa que se utiliza da estrutura de dados Tabela Hash para armazenar dados sobre personagens e planetas da franquia de Star Wars adiquiridos por meio de uma API sobre os quais podemos realizar diferentes buscas e filtragens. O foco principal do desenvolvimento do trabalho foi a organização das informações e a criação de funções eficientes e práticas para encontrar certas respostas. 
-
-Com o presente trabalho pudemos aplicar os conceitos teóricos vistos em aula e aprender mais sobre o funcionamento prático de estruturas de dados.
+Em suma, fizemos um programa que armazena dados de personagens e planetas de Star Wars, obtidos de uma API, em três estruturas de dados diferentes. Sobre esses dados foram desenvolvidos algoritmos de planejamento de missões: um algoritmo guloso, o Ford-Fulkerson para fluxo máximo, a busca em profundidade de três cores para detectar ciclos e uma versão simplificada do problema do caixeiro-viajante para roteiros de múltiplos destinos. Ainda criamos funções de busca e filtros para esses dados.
+Com o trabalho pudemos aplicar na prática os conceitos vistos em aula e perceber como a escolha da estrutura de dados e do algoritmo muda o custo de cada problema, além de entender como certos algoritmos podem ser muito úteis em problemas do dia a dia, ainda que os problemas deste programa fictícios suas situações podem ser vividas no cotidiano.
 
 \section{REFERÊNCIAS}
 
